@@ -53,21 +53,42 @@ class BeforeAfter {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const getVideoSource = (video) => {
+        const sourceTag = video.querySelector('source');
+        return video.getAttribute('src') || (sourceTag && sourceTag.getAttribute('src')) || '';
+    };
+
+    const getPosterPath = (src) => {
+        const normalized = src.replace(/^\.?\//, '');
+        return normalized ? `./static/video-posters/${normalized.replace(/\.mp4$/i, '.jpg')}` : '';
+    };
+
     const setupVideoLoadingState = (video) => {
         if (video.parentElement && video.parentElement.classList.contains('video-loading-shell')) {
             return;
         }
 
+        const videoSrc = getVideoSource(video);
+        const posterPath = getPosterPath(videoSrc);
+
         const shell = document.createElement('div');
         shell.className = 'video-loading-shell';
 
+        const posterFrame = document.createElement('div');
+        posterFrame.className = 'video-poster-frame';
+        if (posterPath) {
+            posterFrame.style.backgroundImage = `url("${posterPath}")`;
+            video.setAttribute('poster', posterPath);
+        }
+
         const indicator = document.createElement('div');
         indicator.className = 'video-loading-indicator';
-        indicator.textContent = 'Loading...';
+        indicator.textContent = 'Loading video';
 
         const parent = video.parentNode;
         parent.insertBefore(shell, video);
         shell.appendChild(video);
+        shell.appendChild(posterFrame);
         shell.appendChild(indicator);
 
         const markLoaded = () => {
@@ -78,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const markError = () => {
             shell.classList.remove('is-loaded');
             shell.classList.add('is-error');
-            indicator.textContent = 'Failed to load';
+            indicator.textContent = 'Video unavailable';
         };
 
         if (video.readyState >= 2) {
@@ -86,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             video.addEventListener('loadeddata', markLoaded, { once: true });
             video.addEventListener('canplay', markLoaded, { once: true });
+            video.addEventListener('playing', markLoaded, { once: true });
             video.addEventListener('error', markError, { once: true });
         }
     };

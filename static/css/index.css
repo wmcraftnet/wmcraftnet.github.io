@@ -167,6 +167,9 @@ body {
 .video-loading-shell {
   position: relative;
   width: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 52%, #f8fafc 100%);
 }
 
 .publication-video > .video-loading-shell {
@@ -174,30 +177,61 @@ body {
   inset: 0;
 }
 
-.video-loading-indicator {
+.video-loading-shell video {
+  opacity: 0;
+  background: transparent !important;
+  transition: opacity 0.3s ease;
+}
+
+.video-loading-shell.is-loaded video {
+  opacity: 1;
+}
+
+.video-poster-frame {
   position: absolute;
   inset: 0;
+  pointer-events: none;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: scale(1.01);
+  transition: opacity 0.35s ease, transform 0.45s ease;
+}
+
+.video-loading-shell.is-loaded .video-poster-frame {
+  opacity: 0;
+  transform: scale(1);
+}
+
+.video-loading-indicator {
+  position: absolute;
+  left: 0.8rem;
+  bottom: 0.8rem;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 0.55rem;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.72), rgba(15, 23, 42, 0.52));
-  color: #f8fafc;
-  font-size: 0.95rem;
+  padding: 0.42rem 0.72rem;
+  background: rgba(255, 255, 255, 0.82);
+  color: #0f172a;
+  font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  border-radius: inherit;
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  border-radius: 999px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
+  backdrop-filter: blur(12px);
   pointer-events: none;
   opacity: 1;
   transition: opacity 0.25s ease;
+  z-index: 1;
 }
 
 .video-loading-indicator::before {
   content: "";
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid rgba(248, 250, 252, 0.35);
-  border-top-color: #f8fafc;
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid rgba(15, 23, 42, 0.18);
+  border-top-color: #0f172a;
   border-radius: 999px;
   animation: videoLoadingSpin 0.8s linear infinite;
 }
@@ -208,7 +242,13 @@ body {
 
 .video-loading-shell.is-error .video-loading-indicator {
   opacity: 1;
-  background: linear-gradient(180deg, rgba(127, 29, 29, 0.82), rgba(127, 29, 29, 0.66));
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  background: rgba(127, 29, 29, 0.88);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 .video-loading-shell.is-error .video-loading-indicator::before {
