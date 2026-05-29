@@ -54,6 +54,8 @@ class BeforeAfter {
 
 document.addEventListener('DOMContentLoaded', () => {
     const VIDEO_LOAD_TIMEOUT_MS = 8000;
+    const VIDEO_PRELOAD_ROOT_MARGIN = '900px 0px';
+    const INITIAL_VIDEO_LOAD_COUNT = 4;
 
     const getVideoSource = (video) => {
         const sourceTag = video.querySelector('source');
@@ -88,6 +90,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return normalized ? `./static/video-posters/${normalized.replace(/\.mp4$/i, '.jpg')}` : '';
     };
 
+    const getBufferedPercent = (video) => {
+        if (!Number.isFinite(video.duration) || video.duration <= 0 || video.buffered.length === 0) {
+            return 0;
+        }
+
+        const bufferedEnd = video.buffered.end(video.buffered.length - 1);
+        return Math.max(0, Math.min(100, Math.round((bufferedEnd / video.duration) * 100)));
+    };
+
+    const updateLoadingIndicator = (video, indicator, fallbackText = 'Loading video') => {
+        const percent = getBufferedPercent(video);
+        indicator.textContent = percent > 0 ? `${fallbackText} ${percent}%` : fallbackText;
+    };
+
     const setupVideoLoadingState = (video) => {
         if (video.parentElement && video.parentElement.classList.contains('video-loading-shell')) {
             return;
@@ -110,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const indicator = document.createElement('div');
         indicator.className = 'video-loading-indicator';
         indicator.textContent = 'Queued video';
+        video._loadingIndicator = indicator;
 
         const parent = video.parentNode;
         parent.insertBefore(shell, video);
@@ -132,8 +149,17 @@ document.addEventListener('DOMContentLoaded', () => {
             markLoaded();
         } else {
             video.addEventListener('loadstart', () => {
-                indicator.textContent = 'Loading video';
-            }, { once: true });
+                updateLoadingIndicator(video, indicator);
+            });
+            video.addEventListener('loadedmetadata', () => {
+                updateLoadingIndicator(video, indicator);
+            });
+            video.addEventListener('progress', () => {
+                updateLoadingIndicator(video, indicator);
+            });
+            video.addEventListener('timeupdate', () => {
+                updateLoadingIndicator(video, indicator);
+            });
             video.addEventListener('loadeddata', markLoaded, { once: true });
             video.addEventListener('canplay', markLoaded, { once: true });
             video.addEventListener('playing', markLoaded, { once: true });
@@ -183,6 +209,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (video._loadingIndicator) {
+            updateLoadingIndicator(video, video._loadingIndicator);
+        }
         video.setAttribute('preload', 'metadata');
         video.load();
         playIfAllowed(video);
@@ -208,14 +237,73 @@ document.addEventListener('DOMContentLoaded', () => {
         videos.forEach((video) => observer.observe(video));
     };
 
-    const loadVideosInDisplayOrder = async (videos) => {
-        for (const video of videos) {
-            await loadVideo(video);
+    const createVideoLoadQueue = (videos) => {
+        const pending = new Set(videos);
+        const queued = [];
+        let active = false;
+
+        const run = async () => {
+            if (active) {
+                return;
+            }
+            active = true;
+            while (queued.length > 0) {
+                await loadVideo(queued.shift());
+            }
+            active = false;
+        };
+
+        return {
+            enqueue(video) {
+                if (!pending.has(video)) {
+                    return;
+                }
+                pending.delete(video);
+                queued.push(video);
+                run();
+            },
+            enqueueMany(nextVideos) {
+                nextVideos.forEach((video) => this.enqueue(video));
+            },
+            enqueueRemaining() {
+                this.enqueueMany(videos.filter((video) => pending.has(video)));
+            },
+        };
+    };
+
+    const setupViewportLoading = (videos, loadQueue) => {
+        if (!('IntersectionObserver' in window)) {
+            loadQueue.enqueueRemaining();
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            const visibleVideos = entries
+                .filter((entry) => entry.isIntersecting)
+                .map((entry) => entry.target)
+                .sort((a, b) => videos.indexOf(a) - videos.indexOf(b));
+
+            loadQueue.enqueueMany(visibleVideos);
+            visibleVideos.forEach((video) => observer.unobserve(video));
+        }, { rootMargin: VIDEO_PRELOAD_ROOT_MARGIN, threshold: 0.01 });
+
+        videos.forEach((video) => observer.observe(video));
+    };
+
+    const scheduleIdleLoading = (loadQueue) => {
+        const loadRemaining = () => loadQueue.enqueueRemaining();
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(loadRemaining, { timeout: 6000 });
+        } else {
+            window.setTimeout(loadRemaining, 3000);
         }
     };
 
     const videos = Array.from(document.querySelectorAll('video'));
     videos.forEach(setupVideoLoadingState);
+    const loadQueue = createVideoLoadQueue(videos);
+    loadQueue.enqueueMany(videos.slice(0, INITIAL_VIDEO_LOAD_COUNT));
+    setupViewportLoading(videos, loadQueue);
     setupViewportPlayback(videos);
-    loadVideosInDisplayOrder(videos);
+    scheduleIdleLoading(loadQueue);
 });
