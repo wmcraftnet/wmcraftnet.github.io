@@ -104,6 +104,15 @@ document.addEventListener('DOMContentLoaded', () => {
         indicator.textContent = `${fallbackText} ${percent}%`;
     };
 
+    const syncPosterCropWithVideo = (video, posterFrame) => {
+        const videoStyle = window.getComputedStyle(video);
+        const objectFit = videoStyle.objectFit || 'cover';
+        const objectPosition = videoStyle.objectPosition || '50% 50%';
+
+        posterFrame.style.backgroundSize = objectFit === 'contain' ? 'contain' : 'cover';
+        posterFrame.style.backgroundPosition = objectPosition;
+    };
+
     const setupVideoLoadingState = (video) => {
         if (video.parentElement && video.parentElement.classList.contains('video-loading-shell')) {
             return;
@@ -133,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shell.appendChild(video);
         shell.appendChild(posterFrame);
         shell.appendChild(indicator);
+        syncPosterCropWithVideo(video, posterFrame);
 
         let loadedScheduled = false;
         const markLoaded = () => {

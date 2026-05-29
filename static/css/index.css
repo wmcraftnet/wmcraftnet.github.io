@@ -194,13 +194,11 @@ body {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  transform: scale(1.01);
-  transition: opacity 0.35s ease, transform 0.45s ease;
+  transition: opacity 0.35s ease;
 }
 
 .video-loading-shell.is-loaded .video-poster-frame {
   opacity: 0;
-  transform: scale(1);
 }
 
 .video-loading-indicator {
