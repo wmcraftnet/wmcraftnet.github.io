@@ -418,7 +418,57 @@
       </div>
 
       <div class="experiment-subsection">
-        <h3 class="title is-4 subsection-title">Y-Axis Rotation</h3>
+        <h3 class="title is-4 subsection-title">Sim-to-Real Transfer</h3>
+        <div class="content has-text-justified">
+          <p>
+            We first validate that the learned <strong class="axis-y">y-axis</strong> controller transfers from simulation to the
+            real hand on elongated and edge-rich objects. These real-world rollouts highlight whether WM-Craftnet can preserve
+            <strong class="highlight-success">closed-loop target-axis rotation</strong> while coping with sensing noise,
+            contact asymmetry, and tool-like geometries outside the simulator.
+          </p>
+        </div>
+        <h4 class="media-group-title">Real-World Y-Axis Rotation across Objects</h4>
+        <div class="columns is-multiline is-variable is-2 video-grid video-grid-3x2">
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="metadata">
+                <source src="./static/videos/real_y/toothpaste_y_h264.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail"><strong>Toothpaste.</strong> The policy keeps an elongated object controllable while rotating around its shorter axis under asymmetric leverage.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="metadata">
+                <source src="./static/videos/real_y/screwdriver_y_h264.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail"><strong>Screwdriver.</strong> Closed-loop visuotactile feedback stabilizes a tool-like object and maintains y-axis rotation despite the handle-shaft geometry.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="metadata">
+                <source src="./static/videos/real_y/cornerblock_y_h264.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail"><strong>Corner block.</strong> WM-Craftnet sustains real-world y-axis rotation despite sharp edges, intermittent contacts, and changing sideward torques.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment-subsection">
+        <h3 class="title is-4 subsection-title">Tests in Simulation</h3>
+        <div class="content has-text-justified">
+          <p>
+            In simulation, we next evaluate both alternative rotation goals under the same randomized initialization protocol.
+            We first present the broader <strong class="axis-y">y-axis</strong> benchmark and then the more contact-sensitive
+            <strong class="axis-x">x-axis</strong> benchmark.
+          </p>
+        </div>
+        <h4 class="media-group-title">Y-Axis Rotation</h4>
         <div class="content has-text-justified">
           <p>
             The <strong class="axis-y">y-axis</strong> object set contains <strong>toy trashcan, corner block, bulb, corner cylinder, toothpaste, coca can,
@@ -439,10 +489,7 @@
           <div class="column is-one-third-desktop is-half-tablet"><div class="video-tile"><video class="video-shift-down-1cm" autoplay muted loop playsinline controls preload="metadata"><source src="./static/videos/y/7.mp4" type="video/mp4"></video><p>Flashlight</p></div></div>
           <div class="column is-one-third-desktop is-half-tablet"><div class="video-tile"><video class="video-shift-down-1cm" autoplay muted loop playsinline controls preload="metadata"><source src="./static/videos/y/8.mp4" type="video/mp4"></video><p>Bottle</p></div></div>
         </div>
-      </div>
-
-      <div class="experiment-subsection">
-        <h3 class="title is-4 subsection-title">X-Axis Rotation</h3>
+        <h4 class="media-group-title">X-Axis Rotation</h4>
         <div class="content has-text-justified">
           <p>
             The <strong class="axis-x">x-axis</strong> rollouts below show four representative objects:
