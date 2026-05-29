@@ -53,9 +53,34 @@ class BeforeAfter {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const VIDEO_LOAD_TIMEOUT_MS = 8000;
+
     const getVideoSource = (video) => {
         const sourceTag = video.querySelector('source');
-        return video.getAttribute('src') || (sourceTag && sourceTag.getAttribute('src')) || '';
+        return (
+            video.getAttribute('src') ||
+            video.getAttribute('data-src') ||
+            (sourceTag && (sourceTag.getAttribute('src') || sourceTag.getAttribute('data-src'))) ||
+            ''
+        );
+    };
+
+    const attachVideoSource = (video) => {
+        const src = getVideoSource(video);
+        const sourceTag = video.querySelector('source');
+
+        if (!src) {
+            return false;
+        }
+
+        if (sourceTag && !sourceTag.getAttribute('src')) {
+            sourceTag.setAttribute('src', src);
+        } else if (!sourceTag && !video.getAttribute('src')) {
+            video.setAttribute('src', src);
+        }
+
+        video.dataset.deferredLoaded = 'true';
+        return true;
     };
 
     const getPosterPath = (src) => {
@@ -70,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const videoSrc = getVideoSource(video);
         const posterPath = getPosterPath(videoSrc);
+        video.setAttribute('preload', 'none');
 
         const shell = document.createElement('div');
         shell.className = 'video-loading-shell';
@@ -83,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const indicator = document.createElement('div');
         indicator.className = 'video-loading-indicator';
-        indicator.textContent = 'Loading video';
+        indicator.textContent = 'Queued video';
 
         const parent = video.parentNode;
         parent.insertBefore(shell, video);
@@ -105,6 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (video.readyState >= 2) {
             markLoaded();
         } else {
+            video.addEventListener('loadstart', () => {
+                indicator.textContent = 'Loading video';
+            }, { once: true });
             video.addEventListener('loadeddata', markLoaded, { once: true });
             video.addEventListener('canplay', markLoaded, { once: true });
             video.addEventListener('playing', markLoaded, { once: true });
@@ -112,5 +141,81 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    document.querySelectorAll('video').forEach(setupVideoLoadingState);
+    const playIfAllowed = (video) => {
+        if (!video.autoplay || !video.muted) {
+            return;
+        }
+
+        const playAttempt = video.play();
+        if (playAttempt && typeof playAttempt.catch === 'function') {
+            playAttempt.catch(() => {
+                // Mobile browsers may defer autoplay until the user interacts.
+            });
+        }
+    };
+
+    const loadVideo = (video) => new Promise((resolve) => {
+        if (video.readyState >= 2 || video.dataset.deferredLoaded === 'true') {
+            resolve();
+            return;
+        }
+
+        let resolved = false;
+        const finish = () => {
+            if (resolved) {
+                return;
+            }
+            resolved = true;
+            clearTimeout(timeoutId);
+            video.removeEventListener('loadeddata', finish);
+            video.removeEventListener('canplay', finish);
+            video.removeEventListener('error', finish);
+            resolve();
+        };
+
+        const timeoutId = window.setTimeout(finish, VIDEO_LOAD_TIMEOUT_MS);
+        video.addEventListener('loadeddata', finish);
+        video.addEventListener('canplay', finish);
+        video.addEventListener('error', finish);
+
+        if (!attachVideoSource(video)) {
+            finish();
+            return;
+        }
+
+        video.setAttribute('preload', 'metadata');
+        video.load();
+        playIfAllowed(video);
+    });
+
+    const setupViewportPlayback = (videos) => {
+        if (!('IntersectionObserver' in window)) {
+            videos.forEach(playIfAllowed);
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                const video = entry.target;
+                if (entry.isIntersecting) {
+                    playIfAllowed(video);
+                } else {
+                    video.pause();
+                }
+            });
+        }, { rootMargin: '240px 0px', threshold: 0.05 });
+
+        videos.forEach((video) => observer.observe(video));
+    };
+
+    const loadVideosInDisplayOrder = async (videos) => {
+        for (const video of videos) {
+            await loadVideo(video);
+        }
+    };
+
+    const videos = Array.from(document.querySelectorAll('video'));
+    videos.forEach(setupVideoLoadingState);
+    setupViewportPlayback(videos);
+    loadVideosInDisplayOrder(videos);
 });
