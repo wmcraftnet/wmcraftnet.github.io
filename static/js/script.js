@@ -51,3 +51,44 @@ class BeforeAfter {
 
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const setupVideoLoadingState = (video) => {
+        if (video.parentElement && video.parentElement.classList.contains('video-loading-shell')) {
+            return;
+        }
+
+        const shell = document.createElement('div');
+        shell.className = 'video-loading-shell';
+
+        const indicator = document.createElement('div');
+        indicator.className = 'video-loading-indicator';
+        indicator.textContent = 'Loading...';
+
+        const parent = video.parentNode;
+        parent.insertBefore(shell, video);
+        shell.appendChild(video);
+        shell.appendChild(indicator);
+
+        const markLoaded = () => {
+            shell.classList.remove('is-error');
+            shell.classList.add('is-loaded');
+        };
+
+        const markError = () => {
+            shell.classList.remove('is-loaded');
+            shell.classList.add('is-error');
+            indicator.textContent = 'Failed to load';
+        };
+
+        if (video.readyState >= 2) {
+            markLoaded();
+        } else {
+            video.addEventListener('loadeddata', markLoaded, { once: true });
+            video.addEventListener('canplay', markLoaded, { once: true });
+            video.addEventListener('error', markError, { once: true });
+        }
+    };
+
+    document.querySelectorAll('video').forEach(setupVideoLoadingState);
+});

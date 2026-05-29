@@ -164,6 +164,66 @@ body {
     object-fit: cover;
 }
 
+.video-loading-shell {
+  position: relative;
+  width: 100%;
+}
+
+.publication-video > .video-loading-shell {
+  position: absolute;
+  inset: 0;
+}
+
+.video-loading-indicator {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.72), rgba(15, 23, 42, 0.52));
+  color: #f8fafc;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+.video-loading-indicator::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(248, 250, 252, 0.35);
+  border-top-color: #f8fafc;
+  border-radius: 999px;
+  animation: videoLoadingSpin 0.8s linear infinite;
+}
+
+.video-loading-shell.is-loaded .video-loading-indicator {
+  opacity: 0;
+}
+
+.video-loading-shell.is-error .video-loading-indicator {
+  opacity: 1;
+  background: linear-gradient(180deg, rgba(127, 29, 29, 0.82), rgba(127, 29, 29, 0.66));
+}
+
+.video-loading-shell.is-error .video-loading-indicator::before {
+  display: none;
+}
+
+@keyframes videoLoadingSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .publication-body img {
 }
 
