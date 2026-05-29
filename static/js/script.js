@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateLoadingIndicator = (video, indicator, fallbackText = 'Loading video') => {
         const percent = getBufferedPercent(video);
-        indicator.textContent = percent > 0 ? `${fallbackText} ${percent}%` : fallbackText;
+        indicator.textContent = `${fallbackText} ${percent}%`;
     };
 
     const setupVideoLoadingState = (video) => {
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const indicator = document.createElement('div');
         indicator.className = 'video-loading-indicator';
-        indicator.textContent = 'Queued video';
+        indicator.textContent = 'Queued video 0%';
         video._loadingIndicator = indicator;
 
         const parent = video.parentNode;
@@ -134,9 +134,17 @@ document.addEventListener('DOMContentLoaded', () => {
         shell.appendChild(posterFrame);
         shell.appendChild(indicator);
 
+        let loadedScheduled = false;
         const markLoaded = () => {
+            if (loadedScheduled || shell.classList.contains('is-loaded')) {
+                return;
+            }
+            loadedScheduled = true;
             shell.classList.remove('is-error');
-            shell.classList.add('is-loaded');
+            indicator.textContent = 'Ready 100%';
+            window.setTimeout(() => {
+                shell.classList.add('is-loaded');
+            }, 350);
         };
 
         const markError = () => {
