@@ -189,6 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!video.autoplay || !video.muted) {
             return;
         }
+        if (video.dataset.syncGroup && video.dataset.syncReady !== 'true') {
+            return;
+        }
 
         const playAttempt = video.play();
         if (playAttempt && typeof playAttempt.catch === 'function') {
@@ -198,7 +201,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const loadVideo = (video) => new Promise((resolve) => {
+    const seekToStart = (video) => {
+        try {
+            video.currentTime = 0;
+        } catch (error) {
+            // Some mobile browsers disallow seeking until enough media is buffered.
+        }
+    };
+
+    const loadSingleVideo = (video, options = {}) => new Promise((resolve) => {
         if (video.readyState >= 2 || video.dataset.deferredLoaded === 'true') {
             resolve();
             return;
@@ -232,8 +243,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         video.setAttribute('preload', 'metadata');
         video.load();
-        playIfAllowed(video);
+        if (!options.deferPlay) {
+            playIfAllowed(video);
+        }
     });
+
+    const loadVideo = (video, videos, syncGroupLoads) => {
+        const syncGroup = video.dataset.syncGroup;
+        if (!syncGroup) {
+            return loadSingleVideo(video);
+        }
+
+        if (syncGroupLoads.has(syncGroup)) {
+            return syncGroupLoads.get(syncGroup);
+        }
+
+        const groupVideos = videos.filter((candidate) => candidate.dataset.syncGroup === syncGroup);
+        const groupLoad = Promise.all(groupVideos.map((groupVideo) => loadSingleVideo(groupVideo, { deferPlay: true })))
+            .then(() => {
+                groupVideos.forEach((groupVideo) => {
+                    groupVideo.dataset.syncReady = 'true';
+                });
+                groupVideos.forEach(seekToStart);
+                window.requestAnimationFrame(() => {
+                    groupVideos.forEach(playIfAllowed);
+                });
+            });
+
+        syncGroupLoads.set(syncGroup, groupLoad);
+        return groupLoad;
+    };
 
     const setupViewportPlayback = (videos) => {
         if (!('IntersectionObserver' in window)) {
@@ -244,10 +283,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 const video = entry.target;
+                const groupVideos = video.dataset.syncGroup
+                    ? videos.filter((candidate) => candidate.dataset.syncGroup === video.dataset.syncGroup)
+                    : [video];
+
                 if (entry.isIntersecting) {
-                    playIfAllowed(video);
+                    groupVideos.forEach(playIfAllowed);
                 } else {
-                    video.pause();
+                    groupVideos.forEach((groupVideo) => groupVideo.pause());
                 }
             });
         }, { rootMargin: '240px 0px', threshold: 0.05 });
@@ -258,6 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const createVideoLoadQueue = (videos) => {
         const pending = new Set(videos);
         const queued = [];
+        const syncGroupLoads = new Map();
         let active = false;
 
         const run = async () => {
@@ -266,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             active = true;
             while (queued.length > 0) {
-                await loadVideo(queued.shift());
+                await loadVideo(queued.shift(), videos, syncGroupLoads);
             }
             active = false;
         };

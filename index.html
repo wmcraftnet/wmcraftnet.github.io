@@ -134,27 +134,35 @@
           </div>
         </div>
         <h4 class="media-group-title">Real Hardware</h4>
-        <div class="columns is-centered video-grid">
-          <div class="column is-60-percent">
+        <div class="columns is-multiline is-variable is-3 video-grid video-grid-2x2 depth-pred-grid">
+          <div class="column is-half">
             <div class="video-tile">
-              <video class="real-depth-video-shift-down-1cm" autoplay muted loop playsinline controls preload="none">
-                <source data-src="./static/videos/real_z/duck_depthv2.mp4" type="video/mp4">
+              <video autoplay muted loop playsinline controls preload="none" data-sync-group="real-depth">
+                <source data-src="./static/videos/depth_pred/depth_real.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
-              <p class="video-caption-detail">
-                <strong>Real duck rollout.</strong> The left view shows wrist-depth input from the physical hand, where the
-                <span class="highlight-warning">real depth camera contains many holes and strong sensor noise</span>. The
-                right view shows that WSM reconstructs a <span class="highlight-success">smooth depth map with the correct
-                hand-object geometry</span>, providing a cleaner state estimate for control.
-              </p>
+              <p>Real Noisy Wrist Depth</p>
+            </div>
+          </div>
+          <div class="column is-half">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none" data-sync-group="real-depth">
+                <source data-src="./static/videos/depth_pred/depth_pred.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p>Real Predicted Depth from WSM Latent</p>
             </div>
           </div>
         </div>
+        <p class="depth-pred-caption has-text-justified">
+          <strong>Caption:</strong> On real hardware, the wrist depth stream is noisy and incomplete. The WSM latent reconstructs
+          a cleaner depth representation that preserves the hand-object geometry needed by the downstream controller.
+        </p>
         <h4 class="media-group-title">Simulation</h4>
         <div class="columns is-multiline is-variable is-3 video-grid video-grid-2x2 depth-pred-grid">
           <div class="column is-half">
             <div class="video-tile">
-              <video class="depth-pred-rgb-shift" autoplay muted loop playsinline controls preload="none">
+              <video class="depth-pred-rgb-shift" autoplay muted loop playsinline controls preload="none" data-sync-group="sim-depth">
                 <source data-src="./static/videos/depth_pred/rgb.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
@@ -163,7 +171,7 @@
           </div>
           <div class="column is-half">
             <div class="video-tile">
-              <video autoplay muted loop playsinline controls preload="none">
+              <video autoplay muted loop playsinline controls preload="none" data-sync-group="sim-depth">
                 <source data-src="./static/videos/depth_pred/gt_depth_h264.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
@@ -172,7 +180,7 @@
           </div>
           <div class="column is-half">
             <div class="video-tile">
-              <video autoplay muted loop playsinline controls preload="none">
+              <video autoplay muted loop playsinline controls preload="none" data-sync-group="sim-depth">
                 <source data-src="./static/videos/depth_pred/noisy_depth_h264.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
@@ -181,7 +189,7 @@
           </div>
           <div class="column is-half">
             <div class="video-tile">
-              <video autoplay muted loop playsinline controls preload="none">
+              <video autoplay muted loop playsinline controls preload="none" data-sync-group="sim-depth">
                 <source data-src="./static/videos/depth_pred/pred_depth_h264.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
