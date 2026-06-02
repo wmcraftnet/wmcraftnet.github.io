@@ -95,10 +95,11 @@
         </div>
       </div>
 
-      <div class="columns is-centered has-text-centered">
+      <div class="columns is-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3" style="color: #006496;font-weight: bolder;">WM-Craftnet Pipeline</h2>
-          <div class="content has-text-centered">
+          <h2 class="title is-3 method-title" style="color: #006496;font-weight: bolder;">WM-Craftnet</h2>
+          <h3 class="title is-4 subsection-title">Pipeline</h3>
+          <div class="content">
             <figure class="image pipeline-figure">
               <img class="pipeline-image" src="./static/images/pipeline_pdf.png" alt="Overview of WM-Craftnet pipeline">
               <figcaption class="pipeline-caption has-text-justified">
@@ -107,33 +108,33 @@
                 feature to the manipulation policy.
               </figcaption>
             </figure>
-            <p class="has-text-justified">
+            <!-- <p class="has-text-justified">
               <strong>WM-Craftnet pipeline.</strong> Multimodal robot observations are encoded into a compact latent state.
               A Dreamer-style recurrent model reconstructs sensory signals, predicts reward-relevant structure, and exposes
               only its deterministic recurrent feature to the actor. The actor uses this feature together with current
               deployable observations to select contact-rich finger actions.
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
 
       <div class="experiment-subsection">
-        <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
+        <div class="columns">
+          <div class="column">
             <h3 class="title is-4 subsection-title">WSM Latent Depth Reconstruction</h3>
             <div class="content has-text-justified">
               <p>
                 To visualize what the World Synesthesia Model learns, we reconstruct wrist-camera depth from the
-                <strong class="highlight-success">WSM latent state</strong> during duck <strong class="axis-z">z-axis</strong>
+                <strong class="highlight-method">WSM latent state</strong> during duck <strong class="axis-z">z-axis</strong>
                 rotation rollouts. Although the model receives a <strong class="highlight-warning">noisy depth input</strong>,
-                the reconstructed <strong class="highlight-success">predicted depth</strong> suppresses sensor noise and
+                the reconstructed <strong class="highlight-method">predicted depth</strong> suppresses sensor noise and
                 preserves hand-object geometry in both real and simulated rollouts, supporting the role of WSM as a deployable
-                <strong class="highlight-success">visuotactile state estimator</strong>.
+                <strong class="highlight-method">visuotactile state estimator</strong>.
               </p>
             </div>
           </div>
         </div>
-        <h4 class="media-group-title">Real Hardware</h4>
+        <h4 class="media-group-title media-group-title-left">Real Hardware</h4>
         <div class="columns is-multiline is-variable is-3 video-grid video-grid-2x2 depth-pred-grid">
           <div class="column is-half">
             <div class="video-tile">
@@ -155,10 +156,11 @@
           </div>
         </div>
         <p class="depth-pred-caption has-text-justified">
-          <strong>Caption:</strong> On real hardware, the wrist depth stream is noisy and incomplete. The WSM latent reconstructs
-          a cleaner depth representation that preserves the hand-object geometry.
+          <strong></strong> On real hardware, the wrist depth stream is noisy and incomplete. The WSM latent reconstructs
+          <span class="highlight-method">a cleaner depth representation</span> that
+          <span class="highlight-good">preserves the hand-object geometry</span>.
         </p>
-        <h4 class="media-group-title">Simulation</h4>
+        <h4 class="media-group-title media-group-title-left">Simulation</h4>
         <div class="columns is-multiline is-variable is-3 video-grid video-grid-2x2 depth-pred-grid">
           <div class="column is-half">
             <div class="video-tile">
@@ -198,9 +200,12 @@
           </div>
         </div>
         <p class="depth-pred-caption has-text-justified">
-          <strong>Caption:</strong> The WSM latent reconstructs a clean wrist-depth stream from noisy observations.
-          Compared with the noisy input, the predicted depth preserves the duck and hand-object workspace while removing
-          substantial sensor noise, showing that the recurrent latent captures task-relevant geometry for downstream control.
+          <strong></strong> The WSM latent reconstructs
+          <span class="highlight-method">a clean wrist-depth stream</span> from noisy observations.
+          Compared with the noisy input, the predicted depth
+          <span class="highlight-good">preserves the duck and hand-object workspace</span> while
+          <span class="highlight-good">removing substantial sensor noise</span>, showing that the recurrent latent
+          <span class="highlight-method">captures task-relevant geometry</span> for downstream control.
         </p>
       </div>
     </div>
@@ -226,13 +231,14 @@
           <p>
             On the real Sharpa platform, WM-Craftnet is deployed with wrist depth sensing and tactile feedback under real sensing
             noise, latency, and unmodeled contacts. The real-hardware rollouts below show that one policy can
-            <strong class="highlight-success">adapt across objects in a continuous run</strong>, recover from
+            <strong class="highlight-good">adapt across objects in a continuous run</strong>, recover from
             <strong class="highlight-warning">out-of-distribution hand-object states</strong>, and sustain z-axis rotation
             on objects with different shapes and contact geometry.
           </p>
         </div>
-        <div class="columns is-centered video-grid">
-          <div class="column is-60-percent">
+        <h4 class="media-group-title media-group-title-left">Overview: Generalizability and Robustness</h4>
+        <div class="columns is-multiline is-variable is-3 video-grid">
+          <div class="column is-one-third-desktop is-half-tablet">
             <div class="video-tile">
               <video autoplay muted loop playsinline controls preload="none">
                 <source data-src="./static/videos/real_z/consecutive.mp4" type="video/mp4">
@@ -240,18 +246,17 @@
               </video>
               <p class="video-caption-detail">
                 <strong>Continuous multi-object real-world rollout.</strong> The same policy rotates several objects in one
-                uninterrupted run: <span class="caption-time">0-24 s</span> duck,
-                <span class="caption-time">24-35 s</span> cylinder,
-                <span class="caption-time">35-50 s</span> cross block,
-                <span class="caption-time">50-73 s</span> steamed bun, and
-                <span class="caption-time">73-94 s</span> an unseen double-notched block. In the unseen-object segment, the
-                policy initially struggles, adapts online through closed-loop sensing, and gradually reaches stable rotation.
+                uninterrupted run: <a href="#" class="caption-time video-seek-link">0-24 s</a> duck,
+                <a href="#" class="caption-time video-seek-link">24-35 s</a> cylinder,
+                <a href="#" class="caption-time video-seek-link">35-50 s</a> cross block,
+                <a href="#" class="caption-time video-seek-link">50-73 s</a> steamed bun, and
+                <a href="#" class="caption-time video-seek-link">73-94 s</a> an unseen double-notched block. In the unseen-object segment, the
+                policy initially struggles, <span class="highlight-method">adapts online through closed-loop sensing</span>, and
+                gradually reaches <span class="highlight-good">stable rotation</span>.
               </p>
             </div>
           </div>
-        </div>
-        <div class="columns is-multiline is-variable is-3 video-grid video-grid-2x2">
-          <div class="column is-half">
+          <div class="column is-one-third-desktop is-half-tablet">
             <div class="video-tile">
               <video autoplay muted loop playsinline controls preload="none">
                 <source data-src="./static/videos/real_z/duck_recovery.mp4" type="video/mp4">
@@ -259,12 +264,13 @@
               </video>
               <p class="video-caption-detail">
                 <strong>OOD-to-duck recovery.</strong> An unseen object first drives the policy into an out-of-distribution
-                interaction state. After switching to the duck, WM-Craftnet recovers a controllable grasp and resumes successful
-                z-axis rotation on the physical hand.
+                interaction state. After switching to the duck, WM-Craftnet
+                <span class="highlight-good">recovers a controllable grasp</span> and resumes
+                <span class="highlight-good">successful z-axis rotation</span> on the physical hand.
               </p>
             </div>
           </div>
-          <div class="column is-half">
+          <div class="column is-one-third-desktop is-half-tablet">
             <div class="video-tile">
               <video autoplay muted loop playsinline controls preload="none">
                 <source data-src="./static/videos/real/corner_cube_robust_h264.mp4" type="video/mp4">
@@ -272,13 +278,85 @@
               </video>
               <p class="video-caption-detail">
                 <strong>Real-world perturbation recovery.</strong>
-                <span class="caption-time">3-5 s</span> and <span class="caption-time">22-25 s</span>: a human perturbs the
-                corner block's position; the policy adjusts the object back into a controllable state and continues smooth rotation.
+                <a href="#" class="caption-time video-seek-link">3-5 s</a> and <a href="#" class="caption-time video-seek-link">22-25 s</a>: a human perturbs the
+                corner block's position; the policy <span class="highlight-good">adjusts the object back into a controllable state</span>
+                and continues <span class="highlight-good">smooth rotation</span>.
               </p>
             </div>
           </div>
         </div>
-        <h4 class="media-group-title">Real-World Z-Axis Rotation across Objects</h4>
+        <h4 class="media-group-title media-group-title-left">Baseline Comparison in Real World</h4>
+        <div class="content has-text-justified">
+          <p>
+            <!-- Real-world z-axis rotation exposes the limitations of open-loop replay and policies that
+            <span class="highlight-cause">lack robust geometric state inference</span>. Open-loop Replay
+            <span class="highlight-bad">cannot adjust</span> when the corner block starts near the palm center. Touch
+            Dexterity can sometimes induce rotation from tactile feedback, but the object
+            <span class="highlight-bad">remains unstable and often tips over</span>. IHR adds depth and tactile
+            observations, yet <span class="highlight-cause">noisy real depth shifts its visual input outside the simulated
+            training distribution</span>. In contrast, WM-Craftnet uses the
+            <span class="highlight-method">WSM recurrent state</span> to maintain
+            <span class="highlight-good">stable closed-loop rotation</span>. -->
+          </p>
+        </div>
+        <div class="columns is-multiline is-variable is-3 failure-grid">
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="failure-card failure-card-baseline">
+              <span class="failure-badge baseline">Open-loop Replay</span>
+              <video class="comparison-shift-up-2cm" autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/real/comparison/openloop.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <h4>open-loop</h4>
+              <p>The replayed gait has <span class="highlight-cause">no feedback or adjustment ability</span>; even with the block near the palm center, it <span class="highlight-bad">cannot recover a controllable rotation mode</span>.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="failure-card failure-card-baseline">
+              <span class="failure-badge baseline">Touch Dexterity</span>
+              <video class="comparison-shift-up-2cm" autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/real/comparison/tacpolicy.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <h4>tactile-only feedback</h4>
+              <p>The tactile policy can produce rotation, but without explicit geometry the object becomes <span class="highlight-bad">unstable</span> and frequently <span class="highlight-bad">tips into side-fall states</span>.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="failure-card failure-card-baseline">
+              <span class="failure-badge baseline">In-Hand Rotation</span>
+              <video class="comparison-shift-up-2cm" autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/fail/ihr.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <h4>tactile+noisy real depth</h4>
+              <p><span class="highlight-cause">Real sensor noise</span> quickly pushes the depth observation out of the simulated training distribution, causing an <span class="highlight-bad">OOD interaction state</span> and <span class="highlight-bad">loss of stable rotation</span>.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="failure-card failure-card-baseline">
+              <span class="failure-badge baseline">IHR + WSM Depth</span>
+              <video class="comparison-shift-up-2cm" autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/fail/ihr_depth.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <h4>tactile+denoised depth</h4>
+              <p>WSM-reconstructed depth gives a cleaner geometry estimate and slightly improves behavior, but <span class="highlight-cause">depth denoising alone cannot sustain stable rotation</span>.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="failure-card failure-card-ours">
+              <span class="failure-badge ours">Ours</span>
+              <video class="comparison-shift-up-2cm" autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/real/comparison/ours.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <h4>WM-Craftnet</h4>
+              <p>With <span class="highlight-method">WSM recurrent task context</span>, the policy keeps the corner block <span class="highlight-good">upright</span> and maintains <span class="highlight-good">stable continuous z-axis rotation for over one minute</span>.</p>
+            </div>
+          </div>
+        </div>
+        <h4 class="media-group-title media-group-title-left">Real-World Z-Axis Rotation across Objects</h4>
         <div class="columns is-multiline is-variable is-2 video-grid video-grid-3x2">
           <div class="column is-one-third-desktop is-half-tablet">
             <div class="video-tile">
@@ -292,10 +370,10 @@
           <div class="column is-one-third-desktop is-half-tablet">
             <div class="video-tile">
               <video autoplay muted loop playsinline controls preload="none">
-                <source data-src="./static/videos/real_z/cornercube.mp4" type="video/mp4">
+                <source data-src="./static/videos/real/comparison/ours.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
-              <p class="video-caption-detail"><strong>Corner block.</strong> The policy maintains z-axis rotation despite sharp corners and discontinuous contacts.</p>
+              <p class="video-caption-detail"><strong>Corner block.</strong> WM-Craftnet maintains stable z-axis rotation for over one minute without side-fall.</p>
             </div>
           </div>
           <div class="column is-one-third-desktop is-half-tablet">
@@ -335,43 +413,7 @@
             </div>
           </div>
         </div>
-        <h4 class="media-group-title">Baseline Real-World Z-Axis Rotation</h4>
-        <div class="content has-text-justified">
-          <p>
-            We compare against the In-Hand Rotation (IHR) baseline under real wrist-depth sensing. Although IHR uses both
-            depth and tactile observations, noisy real depth can shift the visual input outside the simulated training
-            distribution. Replacing the raw depth stream with WSM-reconstructed depth improves the geometric input, but
-            depth denoising alone is still insufficient for sustained stable rotation without the full WSM recurrent state.
-          </p>
-        </div>
-        <div class="columns is-multiline is-variable is-3 video-grid video-grid-2x2">
-          <div class="column is-half">
-            <div class="video-tile">
-              <video autoplay muted loop playsinline controls preload="none">
-                <source data-src="./static/videos/fail/ihr.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-              <p class="video-caption-detail">
-                <strong>In-Hand Rotation with noisy real depth.</strong> Real sensor noise quickly pushes the depth observation
-                out of the simulated training distribution, causing the baseline to enter an OOD interaction state and lose
-                stable z-axis rotation.
-              </p>
-            </div>
-          </div>
-          <div class="column is-half">
-            <div class="video-tile">
-              <video autoplay muted loop playsinline controls preload="none">
-                <source data-src="./static/videos/fail/ihr_depth.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-              <p class="video-caption-detail">
-                <strong>In-Hand Rotation with WSM-reconstructed depth.</strong> The denoised depth stream gives the baseline a
-                cleaner geometry estimate and slightly improves behavior, but it still cannot maintain continuous stable
-                rotation on the real hand.
-              </p>
-            </div>
-          </div>
-        </div>
+
       </div>
 
       <div class="experiment-subsection">
@@ -404,9 +446,9 @@
         </p> -->
         <div class="content has-text-justified">
           <p>
-            For gravity-invariant rotation, we adapt WM-Craftnet with a <strong class="highlight-success">closer hand-object grasp</strong> inspired by the <strong class="highlight-metric">HORA</strong>
-            implementation, together with modified initial conditions and reward design. This <strong class="highlight-success">compact grasp</strong> keeps the object
-            more securely inside the hand, so the policy can <strong class="highlight-success">maintain contact and stable rotation</strong> when gravity acts under
+            For gravity-invariant rotation, we adapt WM-Craftnet with a <strong class="highlight-method">closer hand-object grasp</strong> inspired by the <a class="highlight-metric" href="https://github.com/HaozhiQi/hora" target="_blank" rel="noopener noreferrer"><strong>HORA</strong></a>
+            implementation, together with modified initial conditions and reward design. This <strong class="highlight-method">compact grasp</strong> keeps the object
+            more securely inside the hand, so the policy can <strong class="highlight-good">maintain contact and stable rotation</strong> when gravity acts under
             <em>different palm orientations</em>.
           </p>
         </div>
@@ -468,11 +510,11 @@
           <p>
             We first validate that the learned <strong class="axis-y">y-axis</strong> controller transfers from simulation to the
             real hand on elongated and edge-rich objects. These real-world rollouts highlight whether WM-Craftnet can preserve
-            <strong class="highlight-success">closed-loop target-axis rotation</strong> while coping with sensing noise,
+            <strong class="highlight-good">closed-loop target-axis rotation</strong> while coping with sensing noise,
             contact asymmetry, and tool-like geometries outside the simulator.
           </p>
         </div>
-        <h4 class="media-group-title">Real-World Y-Axis Rotation across Objects</h4>
+        <h4 class="media-group-title media-group-title-left">Real-World Y-Axis Rotation across Objects</h4>
         <div class="columns is-multiline is-variable is-2 video-grid video-grid-3x2">
           <div class="column is-one-third-desktop is-half-tablet">
             <div class="video-tile">
@@ -513,12 +555,12 @@
             <strong class="axis-x">x-axis</strong> benchmark.
           </p>
         </div>
-        <h4 class="media-group-title">Y-Axis Rotation</h4>
+        <h4 class="media-group-title media-group-title-left">Y-Axis Rotation</h4>
         <div class="content has-text-justified">
           <p>
             The <strong class="axis-y">y-axis</strong> object set contains <strong>toy trashcan, corner block, bulb, corner cylinder, toothpaste, coca can,
             screwdriver, flashlight, and bottle</strong>. This setting emphasizes whether the policy can maintain
-            <strong class="highlight-success">sustained target-axis rotation</strong> while rotating elongated bodies about a
+            <strong class="highlight-good">sustained target-axis rotation</strong> while rotating elongated bodies about a
             <strong class="highlight-warning">shorter axis</strong> and regulating the resulting
             <strong class="highlight-warning">moment arms</strong> and <strong class="highlight-warning">sideward contact torques</strong>.
           </p>
@@ -534,7 +576,7 @@
           <div class="column is-one-third-desktop is-half-tablet"><div class="video-tile"><video class="video-shift-down-1cm" autoplay muted loop playsinline controls preload="none"><source data-src="./static/videos/y/7.mp4" type="video/mp4"></video><p>Flashlight</p></div></div>
           <div class="column is-one-third-desktop is-half-tablet"><div class="video-tile"><video class="video-shift-down-1cm" autoplay muted loop playsinline controls preload="none"><source data-src="./static/videos/y/8.mp4" type="video/mp4"></video><p>Bottle</p></div></div>
         </div>
-        <h4 class="media-group-title">X-Axis Rotation</h4>
+        <h4 class="media-group-title media-group-title-left">X-Axis Rotation</h4>
         <div class="content has-text-justified">
           <p>
             The <strong class="axis-x">x-axis</strong> rollouts below show four representative objects:
@@ -570,7 +612,7 @@
               <p>
                 We evaluate <strong class="highlight-warning">out-of-distribution disturbances</strong> injected after the policy has already entered
                 closed-loop manipulation. Even when a <strong class="highlight-warning">sudden external perturbation</strong> moves the object away from current trajectories,
-                WM-Craftnet infers the changed hand-object state and <strong class="highlight-success">adjusts back into a controllable configuration</strong>.
+                WM-Craftnet infers the changed hand-object state and <strong class="highlight-good">adjusts back into a controllable configuration</strong>.
               </p>
             </div>
             <div class="video-tile">
@@ -579,8 +621,8 @@
                 Your browser does not support the video tag.
               </video>
               <p class="video-caption-detail">
-                <span class="caption-time">2-3 s</span>: a force toward the palm pushes the cross block out of the comfortable
-                rotation region. <span class="caption-time">3-6 s</span>: WM-Craftnet
+                <a href="#" class="caption-time video-seek-link">2-3 s</a>: a force toward the palm pushes the cross block out of the comfortable
+                rotation region. <a href="#" class="caption-time video-seek-link">3-6 s</a>: WM-Craftnet
                 <span class="caption-action">adjusts the cross block back into the workspace</span> and continues rotation.
               </p>
             </div>
@@ -602,9 +644,9 @@
                 Your browser does not support the video tag.
               </video>
               <p class="video-caption-detail">
-                <span class="caption-time">0-16 s</span>: notched block,
-                <span class="caption-time">16-33 s</span>: narrow block,
-                <span class="caption-time">33-47 s</span>: double-notched block.
+                <a href="#" class="caption-time video-seek-link">0-16 s</a>: notched block,
+                <a href="#" class="caption-time video-seek-link">16-33 s</a>: narrow block,
+                <a href="#" class="caption-time video-seek-link">33-47 s</a>: double-notched block.
               </p>
             </div>
           </div>
@@ -631,7 +673,7 @@
               <div class="content">
                 <h3 class="title is-5">Bottle: thumb-guided re-centering, then y-axis rotation</h3>
                 <p>
-                  <span class="caption-time">From 0-10 s</span>, the thumb <span class="caption-action">adjusts the bottle closer to the fingers</span>, moving it into a stronger contact region before
+                  <a href="#" class="caption-time video-seek-link">From 0-10 s</a>, the thumb <span class="caption-action">adjusts the bottle closer to the fingers</span>, moving it into a stronger contact region before
                   the hand continues rotation around the y-axis.
                 </p>
               </div>
@@ -646,7 +688,7 @@
               <div class="content">
                 <h3 class="title is-5">Bulb: three-finger uprighting, then z-axis rotation</h3>
                 <p>
-                  <span class="caption-time">From 0-5 s</span>, the thumb, index finger, and middle finger <span class="caption-action">coordinate to make the bulb closer to an upright pose</span>,
+                  <a href="#" class="caption-time video-seek-link">From 0-5 s</a>, the thumb, index finger, and middle finger <span class="caption-action">coordinate to make the bulb closer to an upright pose</span>,
                   enabling smoother rotation around the z-axis.
                 </p>
               </div>
@@ -661,7 +703,7 @@
               <div class="content">
                 <h3 class="title is-5">Coke Can: five-finger stabilization, then z-axis rotation</h3>
                 <p>
-                  <span class="caption-time">From 0-5 s</span>, all five fingers <span class="caption-action">cooperate to bring the coke can upright</span>, showing closed-loop recovery from a less
+                  <a href="#" class="caption-time video-seek-link">From 0-5 s</a>, all five fingers <span class="caption-action">cooperate to bring the coke can upright</span>, showing closed-loop recovery from a less
                   favorable initial pose before z-axis rotation.
                 </p>
               </div>
@@ -676,7 +718,7 @@
               <div class="content">
                 <h3 class="title is-5">Corner block: workspace-aware adjustment, then z-axis rotation</h3>
                 <p>
-                  <span class="caption-time">From 0-4 s</span>, the thumb and little finger <span class="caption-action">guide the object toward the palm-finger junction</span>, a comfortable hand
+                  <a href="#" class="caption-time video-seek-link">From 0-4 s</a>, the thumb and little finger <span class="caption-action">guide the object toward the palm-finger junction</span>, a comfortable hand
                   workspace where stable contacts can support subsequent z-axis rotation.
                 </p>
               </div>
@@ -691,7 +733,7 @@
               <div class="content">
                 <h3 class="title is-5">Cross block: palm-to-finger transfer, then z-axis rotation</h3>
                 <p>
-                  <span class="caption-time">From 0-7 s</span>, all five fingers <span class="caption-action">coordinate to move the object from the palm onto the fingers</span>, converting an
+                  <a href="#" class="caption-time video-seek-link">From 0-7 s</a>, all five fingers <span class="caption-action">coordinate to move the object from the palm onto the fingers</span>, converting an
                   unstable start into a fingertip-controlled configuration for z-axis rotation.
                 </p>
               </div>
@@ -706,7 +748,7 @@
               <div class="content">
                 <h3 class="title is-5">Piggy Bank: five-finger adjustment, then z-axis rotation</h3>
                 <p>
-                  <span class="caption-time">From 0-5 s</span>, all five fingers <span class="caption-action">adjust the piggy bank into a comfortable position</span>, establishing stable contacts
+                  <a href="#" class="caption-time video-seek-link">From 0-5 s</a>, all five fingers <span class="caption-action">adjust the piggy bank into a comfortable position</span>, establishing stable contacts
                   before continuing rotation around the z-axis.
                 </p>
               </div>
@@ -726,7 +768,7 @@
           <div class="content has-text-justified">
             <p>
               Beyond using WSM as policy context for a trained actor, we test whether a pretrained World Synesthesia Model can act as a
-              <strong class="highlight-success">reusable synesthetic prior</strong> for downstream control. A WSM pretrained on the
+              <strong class="highlight-method">reusable synesthetic prior</strong> for downstream control. A WSM pretrained on the
               nine-object <strong class="axis-z">z-axis</strong> setting provides a recurrent state that already organizes
               <strong class="highlight-warning">object geometry</strong>, <strong class="highlight-warning">contact transitions</strong>,
               <strong class="highlight-warning">slip</strong>, action-conditioned motion, and reward-relevant dynamics.
@@ -765,7 +807,7 @@
             <p>
               Finally, we examine whether WM-Craftnet can support tool-use-style manipulation beyond benchmark object rotation.
               Using a screwdriver as an example, the policy must reason about the tool's elongated geometry and contact state
-              while <strong class="highlight-success">preserving a stable in-hand grasp</strong>. This setting includes both
+              while <strong class="highlight-good">preserving a stable in-hand grasp</strong>. This setting includes both
               goal-conditioned translation, where the screwdriver is adjusted to a target pose, and fast axial rotation, where
               the hand spins the tool while maintaining control.
             </p>
@@ -802,9 +844,9 @@
           <h2 class="title is-3" style="color: #006496;font-weight: bolder;">Failure Case Analysis and Limitations</h2>
           <div class="content has-text-justified">
             <p>
-              The central failure case for dexterous in-hand rotation is an overfit, nearly <strong class="highlight-warning">open-loop finger gait</strong>. Policies trained
+              The central failure case for dexterous in-hand rotation is an overfit, nearly <strong class="highlight-cause">open-loop finger gait</strong>. Policies trained
               on a narrow object set or fixed initial pose can rotate familiar objects, but <em>small pose offsets</em>, <em>force disturbances</em>,
-              or <em>object drift</em> may push the interaction outside the trained distribution and lead to <strong class="highlight-warning">stuck states or drops</strong>.
+              or <em>object drift</em> may push the interaction outside the trained distribution and lead to <strong class="highlight-bad">stuck states or drops</strong>.
             </p>
             <p>
               WM-Craftnet addresses this by using a learned recurrent state to improve task-relevant inference over <em>object pose</em>,
@@ -827,7 +869,7 @@
             long-horizon contact drift.
           </p>
         </div>
-        <h4 class="media-group-title">Real Hardware</h4>
+        <h4 class="media-group-title media-group-title-left">Real Hardware</h4>
         <div class="columns is-multiline is-variable is-3 failure-grid">
           <div class="column is-one-third-desktop is-half-tablet">
             <div class="failure-card failure-card-baseline">
@@ -863,7 +905,7 @@
             </div>
           </div>
         </div>
-        <h4 class="media-group-title">Simulation</h4>
+        <h4 class="media-group-title media-group-title-left">Simulation</h4>
         <div class="columns is-multiline is-variable is-3 failure-grid">
           <div class="column is-one-quarter-desktop is-half-tablet">
             <div class="failure-card failure-card-baseline">

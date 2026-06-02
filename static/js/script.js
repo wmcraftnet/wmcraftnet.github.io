@@ -361,11 +361,61 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const parseStartSeconds = (text) => {
+        const match = text.match(/(?:From\s+)?(\d+(?:\.\d+)?)\s*-\s*\d+(?:\.\d+)?\s*s/i);
+        return match ? Number.parseFloat(match[1]) : 0;
+    };
+
+    const waitForSeekableVideo = (video) => new Promise((resolve) => {
+        if (video.readyState >= 1) {
+            resolve();
+            return;
+        }
+
+        const finish = () => {
+            video.removeEventListener('loadedmetadata', finish);
+            video.removeEventListener('canplay', finish);
+            video.removeEventListener('error', finish);
+            resolve();
+        };
+
+        video.addEventListener('loadedmetadata', finish);
+        video.addEventListener('canplay', finish);
+        video.addEventListener('error', finish);
+        attachVideoSource(video);
+        video.load();
+    });
+
+    const setupCaptionSeekLinks = (loadQueue) => {
+        const containerSelector = '.video-tile, .adjustment-card, .failure-card, .elevated-media-card, .synesthetic-prior-card';
+        document.querySelectorAll('.video-seek-link').forEach((link) => {
+            link.addEventListener('click', async (event) => {
+                event.preventDefault();
+                const container = link.closest(containerSelector);
+                const video = container && container.querySelector('video');
+                if (!video) {
+                    return;
+                }
+
+                loadQueue.enqueue(video);
+                await waitForSeekableVideo(video);
+                try {
+                    video.currentTime = parseStartSeconds(link.textContent || '');
+                } catch (error) {
+                    return;
+                }
+                playIfAllowed(video);
+                video.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    };
+
     const videos = Array.from(document.querySelectorAll('video'));
     videos.forEach(setupVideoLoadingState);
     const loadQueue = createVideoLoadQueue(videos);
     loadQueue.enqueueMany(videos.slice(0, INITIAL_VIDEO_LOAD_COUNT));
     setupViewportLoading(videos, loadQueue);
     setupViewportPlayback(videos);
+    setupCaptionSeekLinks(loadQueue);
     scheduleIdleLoading(loadQueue);
 });

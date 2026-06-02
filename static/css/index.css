@@ -687,6 +687,10 @@ body {
   margin-bottom: 0.75rem;
 }
 
+.method-title {
+  text-align: center;
+}
+
 .media-group-title {
   margin: 1.35rem 0 0.5rem;
   color: #426173;
@@ -694,6 +698,10 @@ body {
   font-weight: 800;
   letter-spacing: 0.01em;
   text-align: center;
+}
+
+.media-group-title-left {
+  text-align: left;
 }
 
 .axis-x {
@@ -723,6 +731,36 @@ body {
 
 .highlight-warning {
   color: #b45309;
+  font-weight: 800;
+}
+
+.highlight-cause {
+  color: #7c3aed;
+  font-weight: 800;
+}
+
+.highlight-bad {
+  color: #dc2626;
+  font-weight: 800;
+}
+
+.highlight-method {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+.highlight-good {
+  color: #047857;
+  font-weight: 800;
+}
+
+.baseline-highlight {
+  color: #dc2626;
+  font-weight: 800;
+}
+
+.ours-highlight {
+  color: #047857;
   font-weight: 800;
 }
 
@@ -853,6 +891,10 @@ body {
   object-position: center calc(50% - 0cm);
 }
 
+.failure-card video.comparison-shift-up-2cm {
+  object-position: center calc(50% - 0.05cm);
+}
+
 .failure-card h4 {
   margin: 0.6rem 0 0.25rem;
   font-size: 0.96rem;
@@ -978,9 +1020,19 @@ body {
   color: #006496;
 }
 
+a.caption-time {
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+  cursor: pointer;
+}
+
+a.caption-time:hover {
+  color: #004e78;
+}
+
 .caption-action {
   font-weight: 700;
-  color: #c05621;
+  color: #047857;
 }
 
 .pipeline-figure {
