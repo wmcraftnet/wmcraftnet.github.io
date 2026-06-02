@@ -156,7 +156,7 @@
         </div>
         <p class="depth-pred-caption has-text-justified">
           <strong>Caption:</strong> On real hardware, the wrist depth stream is noisy and incomplete. The WSM latent reconstructs
-          a cleaner depth representation that preserves the hand-object geometry needed by the downstream controller.
+          a cleaner depth representation that preserves the hand-object geometry.
         </p>
         <h4 class="media-group-title">Simulation</h4>
         <div class="columns is-multiline is-variable is-3 video-grid video-grid-2x2 depth-pred-grid">
@@ -332,6 +332,43 @@
                 Your browser does not support the video tag.
               </video>
               <p class="video-caption-detail"><strong>Yogurt container.</strong> The policy rotates a light container whose broad surfaces and edges alter contact stability.</p>
+            </div>
+          </div>
+        </div>
+        <h4 class="media-group-title">Baseline Real-World Z-Axis Rotation</h4>
+        <div class="content has-text-justified">
+          <p>
+            We compare against the In-Hand Rotation (IHR) baseline under real wrist-depth sensing. Although IHR uses both
+            depth and tactile observations, noisy real depth can shift the visual input outside the simulated training
+            distribution. Replacing the raw depth stream with WSM-reconstructed depth improves the geometric input, but
+            depth denoising alone is still insufficient for sustained stable rotation without the full WSM recurrent state.
+          </p>
+        </div>
+        <div class="columns is-multiline is-variable is-3 video-grid video-grid-2x2">
+          <div class="column is-half">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/fail/ihr.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail">
+                <strong>In-Hand Rotation with noisy real depth.</strong> Real sensor noise quickly pushes the depth observation
+                out of the simulated training distribution, causing the baseline to enter an OOD interaction state and lose
+                stable z-axis rotation.
+              </p>
+            </div>
+          </div>
+          <div class="column is-half">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/fail/ihr_depth.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail">
+                <strong>In-Hand Rotation with WSM-reconstructed depth.</strong> The denoised depth stream gives the baseline a
+                cleaner geometry estimate and slightly improves behavior, but it still cannot maintain continuous stable
+                rotation on the real hand.
+              </p>
             </div>
           </div>
         </div>
