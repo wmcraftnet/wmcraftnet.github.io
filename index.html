@@ -78,6 +78,21 @@
     </div>
   </section>
 
+  <section class="section teaser-video-section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <div class="publication-video">
+            <video autoplay muted playsinline controls preload="none" data-loop-delay-ms="2000">
+              <source data-src="./static/videos/real/teaser.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
@@ -281,6 +296,49 @@
                 <a href="#" class="caption-time video-seek-link">3-5 s</a> and <a href="#" class="caption-time video-seek-link">22-25 s</a>: a human perturbs the
                 corner block's position; the policy <span class="highlight-good">adjusts the object back into a controllable state</span>
                 and continues <span class="highlight-good">smooth rotation</span>.
+              </p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/real/recovery/5_recovery.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail">
+                <strong>Challenging-start recovery.</strong>
+                At <a href="#" class="caption-time video-seek-link">0 s</a>, the switch starts in a
+                <span class="highlight-warning">side-fall state</span>; the policy
+                <span class="highlight-good">recovers from the challenging initial pose</span> and brings the object back into a controllable rotation mode.
+              </p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/real/recovery/1_recovery.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail">
+                <strong>Bucket palm-region recovery.</strong>
+                During bucket rotation, at <a href="#" class="caption-time video-seek-link">6 s</a> the object pops into the palm region; WM-Craftnet
+                <span class="highlight-method">pushes it back toward the comfortable workspace</span> and
+                <span class="highlight-good">continues stable rotation</span>.
+              </p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/real/recovery/18_recovery.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail">
+                <strong>Cylinder unexpected-contact recovery.</strong>
+                Around <a href="#" class="caption-time video-seek-link">6 s</a> and <a href="#" class="caption-time video-seek-link">15 s</a>,
+                unexpected contacts push the cylinder toward the palm; the policy
+                <span class="highlight-method">adjusts it back into the comfortable region</span> and
+                <span class="highlight-good">keeps the rotation going</span>.
               </p>
             </div>
           </div>

@@ -209,6 +209,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const setupDelayedLoopVideos = () => {
+        document.querySelectorAll('video[data-loop-delay-ms]').forEach((video) => {
+            const delayMs = Number.parseInt(video.dataset.loopDelayMs, 10);
+            if (!Number.isFinite(delayMs) || delayMs < 0) {
+                return;
+            }
+
+            let replayTimer = null;
+            video.loop = false;
+
+            const clearReplayTimer = () => {
+                if (replayTimer !== null) {
+                    window.clearTimeout(replayTimer);
+                    replayTimer = null;
+                }
+            };
+
+            video.addEventListener('ended', () => {
+                clearReplayTimer();
+                replayTimer = window.setTimeout(() => {
+                    seekToStart(video);
+                    playIfAllowed(video);
+                }, delayMs);
+            });
+
+            video.addEventListener('play', clearReplayTimer);
+            video.addEventListener('pause', () => {
+                if (!video.ended) {
+                    clearReplayTimer();
+                }
+            });
+        });
+    };
+
     const loadSingleVideo = (video, options = {}) => new Promise((resolve) => {
         if (video.readyState >= 2 || video.dataset.deferredLoaded === 'true') {
             resolve();
@@ -362,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const parseStartSeconds = (text) => {
-        const match = text.match(/(?:From\s+)?(\d+(?:\.\d+)?)\s*-\s*\d+(?:\.\d+)?\s*s/i);
+        const match = text.match(/(?:From\s+)?(\d+(?:\.\d+)?)(?:\s*-\s*\d+(?:\.\d+)?)?\s*s/i);
         return match ? Number.parseFloat(match[1]) : 0;
     };
 
@@ -412,6 +446,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const videos = Array.from(document.querySelectorAll('video'));
     videos.forEach(setupVideoLoadingState);
+    setupDelayedLoopVideos();
     const loadQueue = createVideoLoadQueue(videos);
     loadQueue.enqueueMany(videos.slice(0, INITIAL_VIDEO_LOAD_COUNT));
     setupViewportLoading(videos, loadQueue);
