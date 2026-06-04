@@ -48,6 +48,13 @@
             </div>
             <div class="column has-text-centered">
               <span class="link-block">
+                <a href="./static/paper/supplementary_ablation.pdf"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>supplementary_ablation</span>
+                </a>
+              </span>
+              <span class="link-block">
                 <button class="external-link button is-normal is-rounded is-dark" disabled>
                   <span class="icon"><i class="fas fa-file-pdf"></i></span>
                   <span>Paper (TBD)</span>
@@ -69,7 +76,7 @@
   <section class="section nidar-slogan-section">
     <div class="container is-max-desktop has-text-centered">
       <p class="nidar-slogan">
-        <span class="s1">World Synesthesia</span>&nbsp;<span class="s3">for</span>&nbsp;<span class="s4">Visuotactile</span>&nbsp;<span class="s5">Dexterity</span><span class="s-dot"></span>
+        <span class="s1">World Synesthesia Model</span>&nbsp;<span class="s3">for</span>&nbsp;<span class="s4">Visuotactile</span>&nbsp;<span class="s5">Dexterity</span><span class="s-dot"></span>
       </p>
       <p class="nidar-slogan-sub">
         An action-conditioned recurrent state that turns depth, touch, proprioception, and control history into a reusable prior
@@ -84,7 +91,7 @@
         <div class="column is-four-fifths">
           <div class="publication-video">
             <video autoplay muted playsinline controls preload="none" data-loop-delay-ms="2000">
-              <source data-src="./static/videos/real/teaser.mp4" type="video/mp4">
+              <source data-src="./static/videos/teaser/teaserv6.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
           </div>
@@ -251,7 +258,7 @@
             on objects with different shapes and contact geometry.
           </p>
         </div>
-        <h4 class="media-group-title media-group-title-left">Overview: Generalizability and Robustness</h4>
+        <h4 class="media-group-title media-group-title-left">Qualitative Generalizability and Robustness Demos</h4>
         <div class="columns is-multiline is-variable is-3 video-grid">
           <div class="column is-one-third-desktop is-half-tablet">
             <div class="video-tile">
@@ -343,6 +350,90 @@
             </div>
           </div>
         </div>
+        <h4 class="media-group-title media-group-title-left">Real-World Z-Axis Rotation across Objects</h4>
+        <div class="columns is-multiline is-variable is-2 video-grid video-grid-3x3">
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/color/duck.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail"><strong>Duck.</strong> WM-Craftnet keeps stable finger contacts while rotating a curved, asymmetric object.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/real/comparison/ours.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail"><strong>Corner block.</strong> WM-Craftnet maintains stable z-axis rotation for over one minute without side-fall.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/real_z/crosscube.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail"><strong>Cross block.</strong> Closed-loop visuotactile feedback supports rotation with protruding arms and changing contact patches.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/color/cylinder1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail"><strong>Cylinder.</strong> The hand produces smooth z-axis spin on a rounded object with limited tactile landmarks.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/color/piggybank2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail"><strong>Piggy bank.</strong> WM-Craftnet preserves controllable rotation on an anisotropic everyday object with direction-dependent contact geometry.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/color/strawberry.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail"><strong>Strawberry.</strong> The policy maintains rotation on an anisotropic tapered object whose irregular profile creates shifting contact patches.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/color/firehydrant_red2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail"><strong>Fire hydrant.</strong> WM-Craftnet handles protruding side structures and changing contact geometry while sustaining z-axis rotation.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/color/block_blue.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail"><strong>Blue block.</strong> The policy keeps the block upright and achieves stable continuous rotation for more than six full turns.</p>
+            </div>
+          </div>
+          <div class="column is-one-third-desktop is-half-tablet">
+            <div class="video-tile">
+              <video autoplay muted loop playsinline controls preload="none">
+                <source data-src="./static/videos/color/bulb_yellow.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <p class="video-caption-detail"><strong>Bulb.</strong> Despite an unstable center of mass, closed-loop sensing lets the policy adjust contacts and recover balanced rotation.</p>
+            </div>
+          </div>
+        </div>
         <h4 class="media-group-title media-group-title-left">Baseline Comparison in Real World</h4>
         <div class="content has-text-justified">
           <p>
@@ -411,63 +502,6 @@
               </video>
               <h4>WM-Craftnet</h4>
               <p>With <span class="highlight-method">WSM recurrent task context</span>, the policy keeps the corner block <span class="highlight-good">upright</span> and maintains <span class="highlight-good">stable continuous z-axis rotation for over one minute</span>.</p>
-            </div>
-          </div>
-        </div>
-        <h4 class="media-group-title media-group-title-left">Real-World Z-Axis Rotation across Objects</h4>
-        <div class="columns is-multiline is-variable is-2 video-grid video-grid-3x2">
-          <div class="column is-one-third-desktop is-half-tablet">
-            <div class="video-tile">
-              <video autoplay muted loop playsinline controls preload="none">
-                <source data-src="./static/videos/real_z/duck.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-              <p class="video-caption-detail"><strong>Duck.</strong> WM-Craftnet keeps stable finger contacts while rotating a curved, asymmetric object.</p>
-            </div>
-          </div>
-          <div class="column is-one-third-desktop is-half-tablet">
-            <div class="video-tile">
-              <video autoplay muted loop playsinline controls preload="none">
-                <source data-src="./static/videos/real/comparison/ours.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-              <p class="video-caption-detail"><strong>Corner block.</strong> WM-Craftnet maintains stable z-axis rotation for over one minute without side-fall.</p>
-            </div>
-          </div>
-          <div class="column is-one-third-desktop is-half-tablet">
-            <div class="video-tile">
-              <video autoplay muted loop playsinline controls preload="none">
-                <source data-src="./static/videos/real_z/crosscube.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-              <p class="video-caption-detail"><strong>Cross block.</strong> Closed-loop visuotactile feedback supports rotation with protruding arms and changing contact patches.</p>
-            </div>
-          </div>
-          <div class="column is-one-third-desktop is-half-tablet">
-            <div class="video-tile">
-              <video autoplay muted loop playsinline controls preload="none">
-                <source data-src="./static/videos/real_z/cylinder.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-              <p class="video-caption-detail"><strong>Cylinder.</strong> The hand produces smooth z-axis spin on a rounded object with limited tactile landmarks.</p>
-            </div>
-          </div>
-          <div class="column is-one-third-desktop is-half-tablet">
-            <div class="video-tile">
-              <video autoplay muted loop playsinline controls preload="none">
-                <source data-src="./static/videos/real_z/piggybank.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-              <p class="video-caption-detail"><strong>Piggy bank.</strong> WM-Craftnet adapts to a larger everyday object while preserving controllable rotation.</p>
-            </div>
-          </div>
-          <div class="column is-one-third-desktop is-half-tablet">
-            <div class="video-tile">
-              <video autoplay muted loop playsinline controls preload="none">
-                <source data-src="./static/videos/real_z/yogurt_container.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-              <p class="video-caption-detail"><strong>Yogurt container.</strong> The policy rotates a light container whose broad surfaces and edges alter contact stability.</p>
             </div>
           </div>
         </div>
@@ -572,7 +606,7 @@
             contact asymmetry, and tool-like geometries outside the simulator.
           </p>
         </div>
-        <h4 class="media-group-title media-group-title-left">Real-World Y-Axis Rotation across Objects</h4>
+        <!-- <h4 class="media-group-title media-group-title-left">Real-World Y-Axis Rotation across Objects</h4> -->
         <div class="columns is-multiline is-variable is-2 video-grid video-grid-3x2">
           <div class="column is-one-third-desktop is-half-tablet">
             <div class="video-tile">
