@@ -102,6 +102,19 @@
 
   <section class="section">
     <div class="container is-max-desktop">
+      <div class="compact-toc-wrap">
+        <div class="compact-toc-label">Quick Navigation</div>
+        <nav class="compact-toc" aria-label="Page highlights">
+          <a href="#wsm-evidence">Ablation Evidence</a>
+          <a href="#depth-reconstruction">Depth Reconstruction</a>
+          <a href="#multi-object-rotation">Multi-Object Rotation</a>
+          <a href="#diverse-axis-rotation">Diverse Axes</a>
+          <a href="#adjustment-gallery">Robustness</a>
+          <a href="#application-translation">Tool Use</a>
+          <a href="#failure-case-analysis">Failures</a>
+        </nav>
+      </div>
+
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
           <h2 class="title is-3" style="color: #006496;font-weight: bolder;">TL;DR</h2>
@@ -117,30 +130,277 @@
         </div>
       </div>
 
-      <div class="columns is-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-3 method-title" style="color: #006496;font-weight: bolder;">WM-Craftnet</h2>
-          <h3 class="title is-4 subsection-title">Pipeline</h3>
-          <div class="content">
-            <figure class="image pipeline-figure">
-              <img class="pipeline-image" src="./static/images/pipeline_pdf.png" alt="Overview of WM-Craftnet pipeline">
-              <figcaption class="pipeline-caption has-text-justified">
-                <strong>Figure: Overview of WM-Craftnet.</strong> A Dreamer-style RSSM reconstructs depth and low-dimensional
-                proprio-tactile state, predicts reward during world-model training, and provides its deterministic recurrent
-                feature to the manipulation policy.
-              </figcaption>
-            </figure>
-            <!-- <p class="has-text-justified">
-              <strong>WM-Craftnet pipeline.</strong> Multimodal robot observations are encoded into a compact latent state.
-              A Dreamer-style recurrent model reconstructs sensory signals, predicts reward-relevant structure, and exposes
-              only its deterministic recurrent feature to the actor. The actor uses this feature together with current
-              deployable observations to select contact-rich finger actions.
-            </p> -->
-          </div>
+      <div class="experiment-subsection method-pipeline-subsection" id="wmcraftnet-framework">
+        <h2 class="title is-3 method-title" style="color: #006496;font-weight: bolder;">WM-Craftnet</h2>
+        <h3 class="title is-4 subsection-title">Pipeline</h3>
+        <div class="content">
+          <figure class="image pipeline-figure">
+            <img class="pipeline-image" src="./static/images/pipeline_pdf.png" alt="Overview of WM-Craftnet pipeline">
+            <figcaption class="pipeline-caption has-text-justified">
+              <strong>Figure: Overview of WM-Craftnet.</strong> A Dreamer-style RSSM reconstructs depth and low-dimensional
+              proprio-tactile state, predicts reward during world-model training, and provides its deterministic recurrent
+              feature to the manipulation policy.
+            </figcaption>
+          </figure>
+          <!-- <p class="has-text-justified">
+            <strong>WM-Craftnet pipeline.</strong> Multimodal robot observations are encoded into a compact latent state.
+            A Dreamer-style recurrent model reconstructs sensory signals, predicts reward-relevant structure, and exposes
+            only its deterministic recurrent feature to the actor. The actor uses this feature together with current
+            deployable observations to select contact-rich finger actions.
+          </p> -->
         </div>
       </div>
 
-      <div class="experiment-subsection">
+      <div class="experiment-subsection ablation-highlight-section" id="wsm-evidence">
+        <h3 class="title is-4 subsection-title">Ablation Evidence: Why WSM Helps</h3>
+        <div class="content has-text-justified">
+          <p>
+            These compact ablations isolate the mechanism behind WM-Craftnet: the performance gain comes from
+            <strong class="highlight-method">clean geometric supervision</strong> coupled with
+            <strong class="highlight-method">action-conditioned recurrent inference</strong>, not from simply adding raw depth,
+            tactile inputs, or a per-frame learned feature. More detailed rollout and recovery videos are presented in the
+            <a href="#multi-object-rotation">real-world</a>, <a href="#diverse-axis-rotation">multi-axis</a>, and
+            <a href="#adjustment-gallery">robustness</a> sections below.
+          </p>
+        </div>
+        <div class="ablation-summary-grid">
+          <div class="ablation-summary-card">
+            <span class="ablation-card-label">Best z-axis WSM</span>
+            <strong>753.3 Return</strong>
+            <p>Full WSM with prop+tac+clean-depth heads improves over raw-sensor baselines and scratch training.</p>
+          </div>
+          <div class="ablation-summary-card">
+            <span class="ablation-card-label">Key controls</span>
+            <strong>+45.3 Return</strong>
+            <p>Clean-depth WSM beats noisy-depth supervision, showing that denoising is a task-relevant target.</p>
+          </div>
+          <div class="ablation-summary-card">
+            <span class="ablation-card-label">Real robot</span>
+            <strong>16.18 rad vs. 2.76 rad</strong>
+            <p>On duck rotation, WM-Craftnet outperforms IHR even when IHR receives WSM-denoised depth.</p>
+          </div>
+          <div class="ablation-summary-card">
+            <span class="ablation-card-label">Latent structure</span>
+            <strong>Object-aware h<sub>t</sub></strong>
+            <p>t-SNE shows recurrent states organize interaction regimes without object identifiers.</p>
+          </div>
+        </div>
+
+        <details class="ablation-detail">
+          <summary>Sensor-head ablation: clean depth and tactile prediction make the WSM state strongest</summary>
+          <div class="ablation-detail-body">
+            <div class="ablation-table-wrap">
+              <table class="ablation-table">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Return &uarr;</th>
+                    <th>EpLen &uarr;</th>
+                    <th>RotR &uarr;</th>
+                    <th>Fall &darr;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Best raw-sensor baseline</td>
+                    <td>386.9</td>
+                    <td>362.5</td>
+                    <td>1.018</td>
+                    <td>0.047</td>
+                  </tr>
+                  <tr>
+                    <td>WM-Craftnet from scratch</td>
+                    <td>414.3</td>
+                    <td>264.2</td>
+                    <td>0.742</td>
+                    <td><strong>0.002</strong></td>
+                  </tr>
+                  <tr>
+                    <td>WSM pretrained, prop-only</td>
+                    <td>684.5</td>
+                    <td>424.0</td>
+                    <td>1.191</td>
+                    <td>0.009</td>
+                  </tr>
+                  <tr>
+                    <td>WSM pretrained, prop+tac</td>
+                    <td>698.9</td>
+                    <td><strong>435.4</strong></td>
+                    <td>1.192</td>
+                    <td>0.004</td>
+                  </tr>
+                  <tr class="ablation-best-row">
+                    <td>WSM pretrained, prop+tac+depth</td>
+                    <td><strong>753.3</strong></td>
+                    <td>435.2</td>
+                    <td><strong>1.293</strong></td>
+                    <td>0.005</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="ablation-conclusion">
+              <strong>Conclusion.</strong> The full predictive state is not just a larger observation vector: pretraining and
+              clean-depth supervision give the actor a reusable, denoised interaction state for rotation.
+            </p>
+            <figure class="ablation-figure">
+              <img src="./static/images/tb_curves_3000.png" alt="Training reward curves and real robot z-axis evaluation">
+              <figcaption>Training curves from the main paper: WM-Craftnet stays above the baseline policies, with the WSM ablation curve isolating the representation gain.</figcaption>
+            </figure>
+          </div>
+        </details>
+
+        <details class="ablation-detail">
+          <summary>Latent-state diagnostic: WSM organizes object-dependent interaction regimes</summary>
+          <div class="ablation-detail-body ablation-visual-grid">
+            <figure class="ablation-figure">
+              <img src="./static/images/wm_ht_tsne.png" alt="t-SNE visualization of WSM recurrent states">
+              <figcaption>
+                t-SNE of WSM recurrent states <em>h<sub>t</sub></em> collected from z-axis rollouts over nine objects.
+                Clusters and overlaps reflect object geometry and shared contact affordances, even though the deployable
+                actor does not receive object IDs.
+              </figcaption>
+            </figure>
+            <p class="ablation-conclusion">
+              <strong>Conclusion.</strong> The recurrent WSM state is not a generic visual embedding; it separates and blends
+              interaction histories according to geometry/contact regimes that matter for control.
+            </p>
+          </div>
+        </details>
+
+        <details class="ablation-detail">
+          <summary>Controlled WSM variants: clean-depth supervision and recurrence are both needed</summary>
+          <div class="ablation-detail-body">
+            <div class="ablation-table-wrap">
+              <table class="ablation-table">
+                <thead>
+                  <tr>
+                    <th>WSM Variant</th>
+                    <th>EpLen &uarr;</th>
+                    <th>Return &uarr;</th>
+                    <th>RotR &uarr;</th>
+                    <th>OffAxis &darr;</th>
+                    <th>AngVar &darr;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Noisy-depth supervision</td>
+                    <td>431.1</td>
+                    <td>708.0</td>
+                    <td>1.265</td>
+                    <td>1.299</td>
+                    <td>1.456</td>
+                  </tr>
+                  <tr>
+                    <td>No previous h recurrent input</td>
+                    <td>434.3</td>
+                    <td>705.4</td>
+                    <td>1.282</td>
+                    <td><strong>1.125</strong></td>
+                    <td><strong>1.185</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Encoder-decoder z policy</td>
+                    <td>417.4</td>
+                    <td>667.6</td>
+                    <td>1.254</td>
+                    <td>1.323</td>
+                    <td>1.343</td>
+                  </tr>
+                  <tr class="ablation-best-row">
+                    <td>Full WSM</td>
+                    <td><strong>435.2</strong></td>
+                    <td><strong>753.3</strong></td>
+                    <td><strong>1.293</strong></td>
+                    <td>1.225</td>
+                    <td>1.324</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="ablation-visual-grid">
+              <figure class="ablation-figure">
+                <img src="./static/images/supplementary_ablation.png" alt="Supplementary WSM ablation training curves">
+                <figcaption>The supplementary control curves show the full WSM learning faster and reaching higher final reward than each isolated variant.</figcaption>
+              </figure>
+              <p class="ablation-conclusion">
+                <strong>Conclusion.</strong> A per-frame latent feature is insufficient; the best control performance comes from
+                combining clean geometric targets with action-conditioned recurrent memory.
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details class="ablation-detail">
+          <summary>Real-world clear-depth control: denoising helps, but does not fully explain WM-Craftnet</summary>
+          <div class="ablation-detail-body">
+            <div class="ablation-table-wrap">
+              <table class="ablation-table ablation-table-compact">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Duck RR/SR</th>
+                    <th>Cross RR/SR</th>
+                    <th>Corner RR/SR</th>
+                    <th>Unseen RR/SR</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>In-Hand Rotation</td>
+                    <td>1.83 / 5/10</td>
+                    <td>0.45 / 1/10</td>
+                    <td>0.36 / 1/10</td>
+                    <td>0.39 / 0/10</td>
+                  </tr>
+                  <tr>
+                    <td>IHR with WSM-denoised depth</td>
+                    <td>2.76 / 8/10</td>
+                    <td>1.21 / 8/10</td>
+                    <td>2.43 / 10/10</td>
+                    <td>0.80 / 0/10</td>
+                  </tr>
+                  <tr class="ablation-best-row">
+                    <td>WM-Craftnet</td>
+                    <td><strong>16.18 / 10/10</strong></td>
+                    <td><strong>8.01 / 10/10</strong></td>
+                    <td><strong>8.48 / 10/10</strong></td>
+                    <td><strong>4.32 / 8/10</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="ablation-conclusion">
+              <strong>Conclusion.</strong> Cleaner depth substantially improves IHR, but WM-Craftnet remains far ahead because
+              its WSM state also carries temporal contact and motion information needed for closed-loop adjustment.
+            </p>
+          </div>
+        </details>
+
+        <details class="ablation-detail">
+          <summary>Reusable prior: the WSM state transfers to 49 new objects</summary>
+          <div class="ablation-detail-body ablation-visual-grid">
+            <figure class="ablation-figure ablation-video-figure">
+              <div class="publication-video ablation-prior-video">
+                <video autoplay controls muted loop playsinline height="100%">
+                  <source data-src="./static/videos/multiv3_h264.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <figcaption>49-object downstream rotation with a WSM pretrained on the nine-object z-axis setting.</figcaption>
+            </figure>
+            <p class="ablation-conclusion">
+              <strong>Conclusion.</strong> The pretrained WSM serves as reusable physical structure: after 3000 epochs, the
+              downstream 49-object policy reaches <strong>9.37 &plusmn; 0.13 rad</strong> per episode versus
+              <strong>3.28 rad</strong> without the prior, while the fall rate drops from <strong>6%</strong> to
+              <strong>0.3%</strong>. The video shows the resulting broad object coverage.
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <div class="experiment-subsection" id="depth-reconstruction">
         <div class="columns">
           <div class="column">
             <h3 class="title is-4 subsection-title">WSM Latent Depth Reconstruction</h3>
@@ -849,44 +1109,6 @@
         </div>
       </div>
 
-    </div>
-  </section>
-
-  <section class="section experiment-section" id="synesthetic-prior">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-3" style="color: #006496;font-weight: bolder;">WSM as a Synesthetic Prior for 49-Object Rotation</h2>
-          <div class="content has-text-justified">
-            <p>
-              Beyond using WSM as policy context for a trained actor, we test whether a pretrained World Synesthesia Model can act as a
-              <strong class="highlight-method">reusable synesthetic prior</strong> for downstream control. A WSM pretrained on the
-              nine-object <strong class="axis-z">z-axis</strong> setting provides a recurrent state that already organizes
-              <strong class="highlight-warning">object geometry</strong>, <strong class="highlight-warning">contact transitions</strong>,
-              <strong class="highlight-warning">slip</strong>, action-conditioned motion, and reward-relevant dynamics.
-            </p>
-            <p>
-              With this prior, PPO does not need to rediscover basic contact physics only through sparse trial-and-error. Instead, one
-              downstream policy can train over <strong class="highlight-metric">49 new objects</strong> with substantially different
-              sizes and shapes, while the controller still adapts its finger behavior to each object. This shifts learning from narrow
-              object-specific gaits toward a broader shared manipulation policy.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="synesthetic-prior-card">
-        <div class="publication-video">
-          <video autoplay controls muted loop playsinline height="100%">
-            <source data-src="./static/videos/multiv3_h264.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-        </div>
-        <p class="has-text-centered synesthetic-prior-caption">
-          <strong>49-object downstream rotation.</strong> A policy trained with the pretrained WSM prior rotates a broad set of new
-          objects, demonstrating that the learned predictive representation transfers reusable physical knowledge beyond the
-          nine-object pretraining distribution.
-        </p>
-      </div>
     </div>
   </section>
 
