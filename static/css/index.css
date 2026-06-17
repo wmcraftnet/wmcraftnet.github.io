@@ -941,6 +941,9 @@ body {
 }
 
 .ablation-detail summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   cursor: pointer;
   padding: 0.78rem 0.95rem;
   color: #1f3b4d;
@@ -956,13 +959,33 @@ body {
 
 .ablation-detail summary::after {
   content: "+";
-  float: right;
+  order: 2;
+  margin-left: 0.45rem;
   color: #006496;
   font-weight: 900;
 }
 
 .ablation-detail[open] summary::after {
   content: "-";
+}
+
+.ablation-detail summary::before {
+  content: "Click for evidence";
+  order: 1;
+  margin-left: auto;
+  padding: 0.16rem 0.55rem;
+  border: 1px solid rgba(0, 100, 150, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #006496;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.ablation-detail[open] summary::before {
+  content: "Hide details";
 }
 
 .ablation-detail-body {
