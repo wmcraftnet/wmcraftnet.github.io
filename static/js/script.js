@@ -90,18 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return normalized ? `./static/video-posters/${normalized.replace(/\.mp4$/i, '.jpg')}` : '';
     };
 
-    const getBufferedPercent = (video) => {
-        if (!Number.isFinite(video.duration) || video.duration <= 0 || video.buffered.length === 0) {
-            return 0;
-        }
-
-        const bufferedEnd = video.buffered.end(video.buffered.length - 1);
-        return Math.max(0, Math.min(100, Math.round((bufferedEnd / video.duration) * 100)));
-    };
-
     const updateLoadingIndicator = (video, indicator, fallbackText = 'Loading video') => {
-        const percent = getBufferedPercent(video);
-        indicator.textContent = `${fallbackText} ${percent}%`;
+        indicator.textContent = fallbackText;
     };
 
     const syncPosterCropWithVideo = (video, posterFrame) => {
@@ -134,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const indicator = document.createElement('div');
         indicator.className = 'video-loading-indicator';
-        indicator.textContent = 'Queued video 0%';
+        indicator.textContent = 'Queued video';
         video._loadingIndicator = indicator;
 
         const parent = video.parentNode;
@@ -151,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             loadedScheduled = true;
             shell.classList.remove('is-error');
-            indicator.textContent = 'Ready 100%';
+            indicator.textContent = 'Ready';
             window.setTimeout(() => {
                 shell.classList.add('is-loaded');
             }, 350);
