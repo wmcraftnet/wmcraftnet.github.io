@@ -535,8 +535,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const anchorY = window.scrollY + navHeight + activeLineGapPx;
             const activeSection = sections.reduce((current, item) => (
                 item.target.getBoundingClientRect().top + window.scrollY <= anchorY ? item : current
-            ), sections[0]);
-            setActiveLink(activeSection.link);
+            ), null);
+            setActiveLink(activeSection ? activeSection.link : null);
             ticking = false;
         };
 
