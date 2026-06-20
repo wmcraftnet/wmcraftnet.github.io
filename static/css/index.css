@@ -1,8 +1,86 @@
 body {
   font-family: 'Noto Sans', sans-serif;
+  padding-top: 3.8rem;
   background:
     radial-gradient(1200px 500px at 50% -180px, rgba(0, 100, 150, 0.12), transparent 70%),
     linear-gradient(180deg, #f7fbff 0%, #ffffff 18%, #ffffff 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.sticky-page-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid rgba(0, 100, 150, 0.14);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.1);
+  backdrop-filter: blur(14px);
+}
+
+.sticky-page-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  max-width: none;
+  margin: 0 auto;
+}
+
+.sticky-page-nav-label {
+  flex: 0 0 auto;
+  margin-right: 0.2rem;
+  color: #426173;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sticky-page-nav a {
+  flex: 0 0 auto;
+  padding: 0.28rem 0.6rem;
+  border: 1px solid rgba(0, 100, 150, 0.16);
+  border-radius: 999px;
+  background: rgba(239, 246, 255, 0.72);
+  color: #006496;
+  font-size: 0.78rem;
+  font-weight: 800;
+  transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.sticky-page-nav a:hover {
+  background: #e0f2fe;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
+  transform: translateY(-1px);
+}
+
+.sticky-page-nav a.is-active {
+  background: #006496;
+  border-color: #006496;
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(0, 100, 150, 0.22);
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 5.8rem;
+  }
+
+  .sticky-page-nav {
+    padding: 0.35rem 0.5rem;
+  }
+
+  .sticky-page-nav a {
+    font-size: 0.72rem;
+    padding: 0.22rem 0.48rem;
+  }
 }
 
 
@@ -703,7 +781,7 @@ body {
 }
 
 .experiment-section {
-  scroll-margin-top: 1.5rem;
+  scroll-margin-top: 4.5rem;
 }
 
 .experiment-subsection {
@@ -889,7 +967,7 @@ body {
 }
 
 .ablation-highlight-section {
-  scroll-margin-top: 1.5rem;
+  scroll-margin-top: 4.5rem;
 }
 
 .ablation-summary-grid {

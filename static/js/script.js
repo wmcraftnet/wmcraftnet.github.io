@@ -336,7 +336,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const pending = new Set(videos);
         const queued = [];
         const syncGroupLoads = new Map();
+        const loadCompletions = new Map();
+        let nextRequestIndex = 0;
         let active = false;
+
+        const ensureLoadCompletion = (video) => {
+            if (!loadCompletions.has(video)) {
+                let resolveCompletion;
+                const promise = new Promise((resolve) => {
+                    resolveCompletion = resolve;
+                });
+                loadCompletions.set(video, { promise, resolve: resolveCompletion });
+            }
+            return loadCompletions.get(video).promise;
+        };
 
         const run = async () => {
             if (active) {
@@ -344,25 +357,75 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             active = true;
             while (queued.length > 0) {
-                await loadVideo(queued.shift(), videos, syncGroupLoads);
+                const loadUnit = queued.shift();
+                await loadVideo(loadUnit.representative, videos, syncGroupLoads);
+                loadUnit.videos.forEach((video) => {
+                    loadCompletions.get(video).resolve();
+                });
             }
             active = false;
         };
 
+        const queueVideo = (video) => {
+            if (!pending.has(video)) {
+                return;
+            }
+
+            const groupVideos = video.dataset.syncGroup
+                ? videos.filter((candidate) => candidate.dataset.syncGroup === video.dataset.syncGroup)
+                : [video];
+            const pendingGroupVideos = groupVideos.filter((groupVideo) => pending.has(groupVideo));
+            if (pendingGroupVideos.length === 0) {
+                return;
+            }
+
+            pendingGroupVideos.forEach((groupVideo) => {
+                ensureLoadCompletion(groupVideo);
+                pending.delete(groupVideo);
+            });
+            queued.push({
+                representative: video,
+                videos: pendingGroupVideos,
+            });
+        };
+
+        const enqueueThroughIndex = (targetIndex) => {
+            if (targetIndex < 0) {
+                return;
+            }
+
+            const clampedTargetIndex = Math.min(targetIndex, videos.length - 1);
+            for (let index = nextRequestIndex; index <= clampedTargetIndex; index += 1) {
+                queueVideo(videos[index]);
+            }
+            nextRequestIndex = Math.max(nextRequestIndex, clampedTargetIndex + 1);
+            run();
+        };
+
         return {
             enqueue(video) {
-                if (!pending.has(video)) {
-                    return;
-                }
-                pending.delete(video);
-                queued.push(video);
-                run();
+                enqueueThroughIndex(videos.indexOf(video));
+                return loadCompletions.has(video)
+                    ? loadCompletions.get(video).promise
+                    : Promise.resolve();
             },
             enqueueMany(nextVideos) {
-                nextVideos.forEach((video) => this.enqueue(video));
+                const targetIndexes = nextVideos
+                    .map((video) => videos.indexOf(video))
+                    .filter((index) => index >= 0);
+                if (targetIndexes.length === 0) {
+                    return Promise.resolve();
+                }
+                enqueueThroughIndex(Math.max(...targetIndexes));
+                return Promise.all(nextVideos.map((video) => (
+                    loadCompletions.has(video) ? loadCompletions.get(video).promise : Promise.resolve()
+                )));
             },
             enqueueRemaining() {
-                this.enqueueMany(videos.filter((video) => pending.has(video)));
+                enqueueThroughIndex(videos.length - 1);
+                return Promise.all(videos.map((video) => (
+                    loadCompletions.has(video) ? loadCompletions.get(video).promise : Promise.resolve()
+                )));
             },
         };
     };
@@ -431,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                loadQueue.enqueue(video);
+                await loadQueue.enqueue(video);
                 await waitForSeekableVideo(video);
                 try {
                     video.currentTime = parseStartSeconds(link.textContent || '');
@@ -444,6 +507,78 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    const setupStickyNavigation = () => {
+        const nav = document.querySelector('.sticky-page-nav');
+        const navLinks = Array.from(document.querySelectorAll('.sticky-page-nav a[href^="#"]'));
+        const sections = navLinks
+            .map((link) => ({
+                link,
+                target: document.querySelector(link.getAttribute('href')),
+            }))
+            .filter((item) => item.target);
+
+        if (!nav || sections.length === 0) {
+            return;
+        }
+
+        let currentActiveLink = null;
+        let ticking = false;
+        let manualNavigationUntil = 0;
+        const scrollGapPx = 32;
+        const activeLineGapPx = 72;
+
+        const setActiveLink = (nextActiveLink) => {
+            if (currentActiveLink === nextActiveLink) {
+                return;
+            }
+            navLinks.forEach((link) => link.classList.toggle('is-active', link === nextActiveLink));
+            currentActiveLink = nextActiveLink;
+        };
+
+        const updateNavigationState = () => {
+            if (performance.now() < manualNavigationUntil) {
+                ticking = false;
+                return;
+            }
+
+            const navHeight = nav.getBoundingClientRect().height;
+            const anchorY = window.scrollY + navHeight + activeLineGapPx;
+            const activeSection = sections.reduce((current, item) => (
+                item.target.getBoundingClientRect().top + window.scrollY <= anchorY ? item : current
+            ), sections[0]);
+            setActiveLink(activeSection.link);
+            ticking = false;
+        };
+
+        const requestNavigationUpdate = () => {
+            if (ticking) {
+                return;
+            }
+            ticking = true;
+            window.requestAnimationFrame(updateNavigationState);
+        };
+
+        updateNavigationState();
+        sections.forEach(({ link, target }) => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const navHeight = nav.getBoundingClientRect().height;
+                const targetY = target.getBoundingClientRect().top + window.scrollY - navHeight - scrollGapPx;
+
+                manualNavigationUntil = performance.now() + 1400;
+                setActiveLink(link);
+                window.history.pushState(null, '', link.getAttribute('href'));
+                window.scrollTo({
+                    top: Math.max(0, targetY),
+                    behavior: 'smooth',
+                });
+                window.setTimeout(requestNavigationUpdate, 1450);
+            });
+        });
+        window.addEventListener('scroll', requestNavigationUpdate, { passive: true });
+        window.addEventListener('resize', requestNavigationUpdate);
+    };
+
     const videos = Array.from(document.querySelectorAll('video'));
     videos.forEach(setupVideoLoadingState);
     setupDelayedLoopVideos();
@@ -452,5 +587,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setupViewportLoading(videos, loadQueue);
     setupViewportPlayback(videos);
     setupCaptionSeekLinks(loadQueue);
+    setupStickyNavigation();
     scheduleIdleLoading(loadQueue);
 });
