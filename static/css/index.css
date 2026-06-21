@@ -17,10 +17,10 @@ html {
   right: 0;
   z-index: 30;
   padding: 0.45rem 0.75rem;
-  border-bottom: 1px solid rgba(0, 100, 150, 0.14);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.1);
-  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(248, 251, 255, 0.78);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.055);
+  backdrop-filter: blur(10px);
 }
 
 .sticky-page-nav-inner {
@@ -46,9 +46,9 @@ html {
 .sticky-page-nav a {
   flex: 0 0 auto;
   padding: 0.28rem 0.6rem;
-  border: 1px solid rgba(0, 100, 150, 0.16);
+  border: 1px solid rgba(0, 100, 150, 0.1);
   border-radius: 999px;
-  background: rgba(239, 246, 255, 0.72);
+  background: rgba(255, 255, 255, 0.46);
   color: #006496;
   font-size: 0.78rem;
   font-weight: 800;
@@ -56,16 +56,16 @@ html {
 }
 
 .sticky-page-nav a:hover {
-  background: #e0f2fe;
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
+  background: rgba(224, 242, 254, 0.78);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.07);
   transform: translateY(-1px);
 }
 
 .sticky-page-nav a.is-active {
-  background: #006496;
-  border-color: #006496;
+  background: rgba(0, 100, 150, 0.86);
+  border-color: rgba(0, 100, 150, 0.2);
   color: #ffffff;
-  box-shadow: 0 8px 18px rgba(0, 100, 150, 0.22);
+  box-shadow: 0 6px 14px rgba(0, 100, 150, 0.16);
 }
 
 @media (max-width: 768px) {
