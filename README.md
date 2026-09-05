@@ -1,3 +1,3 @@
 # wmcraftnet.github.io
 
-Static project page for **NIdaR** (anonymous submission template).
+Static project page for **WM-Craftnet**.
