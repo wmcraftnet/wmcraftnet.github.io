@@ -103,7 +103,55 @@ document.addEventListener('DOMContentLoaded', () => {
         posterFrame.style.backgroundPosition = objectPosition;
     };
 
+    const setupHeroSplash = () => {
+        const heroVideo = document.getElementById('bg-video');
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        const nav = document.querySelector('.sticky-page-nav--over-hero');
+        const pageContent = document.querySelector('.page-content');
+        const hero = document.getElementById('hero');
+
+        if (heroVideo) {
+            const playHero = () => {
+                heroVideo.play().catch(() => {});
+            };
+            playHero();
+            heroVideo.addEventListener('loadeddata', playHero);
+            heroVideo.addEventListener('canplay', playHero);
+        }
+
+        scrollIndicator?.addEventListener('click', () => {
+            if (!pageContent) {
+                return;
+            }
+            const navHeight = nav ? nav.getBoundingClientRect().height : 0;
+            const top = Math.ceil(pageContent.getBoundingClientRect().top + window.scrollY - navHeight - 8);
+            window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        });
+
+        const updateHeroNavState = () => {
+            if (!nav || !hero) {
+                return;
+            }
+            document.documentElement.style.setProperty('--nav-height', `${nav.offsetHeight}px`);
+            const heroBottom = hero.getBoundingClientRect().bottom;
+            nav.classList.toggle('is-scrolled', heroBottom <= nav.getBoundingClientRect().height + 12);
+        };
+
+        if (nav && typeof ResizeObserver !== 'undefined') {
+            const navResizeObserver = new ResizeObserver(updateHeroNavState);
+            navResizeObserver.observe(nav);
+        }
+
+        updateHeroNavState();
+        window.addEventListener('scroll', updateHeroNavState, { passive: true });
+        window.addEventListener('resize', updateHeroNavState);
+    };
+
     const setupVideoLoadingState = (video) => {
+        if (video.dataset.heroVideo === 'true') {
+            return;
+        }
+
         if (video.parentElement && video.parentElement.classList.contains('video-loading-shell')) {
             return;
         }
@@ -569,7 +617,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', requestNavigationUpdate);
     };
 
-    const videos = Array.from(document.querySelectorAll('video'));
+    const videos = Array.from(document.querySelectorAll('video')).filter((video) => video.dataset.heroVideo !== 'true');
+    setupHeroSplash();
     videos.forEach(setupVideoLoadingState);
     setupDelayedLoopVideos();
     const loadQueue = createVideoLoadQueue(videos);

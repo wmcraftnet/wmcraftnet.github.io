@@ -27,10 +27,28 @@
 </head>
 
 <body>
-  <nav class="sticky-page-nav" aria-label="Page sections">
+  <header class="hero-splash" id="hero">
+    <div class="hero-media">
+      <video id="bg-video" class="hero-bg-video" autoplay muted playsinline preload="auto" data-loop-delay-ms="1000" data-hero-video="true">
+        <source src="./static/videos/teaser/teaserv6.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <div class="hero-overlay" aria-hidden="true"></div>
+    </div>
+    <div class="hero-caption">
+      <div class="hero-caption-inner">
+        <h1 class="hero-title">
+          <span class="hero-brand sharp-animated-word">WM-Craftnet</span>
+          <span class="hero-subtitle">World Synesthesia Model for Robust and Generalizable Dexterous In-Hand Manipulation</span>
+        </h1>
+      </div>
+      <button class="scroll-indicator" type="button" aria-label="Scroll to content">&darr;</button>
+    </div>
+  </header>
+
+  <nav class="sticky-page-nav sticky-page-nav--over-hero" aria-label="Page sections">
     <div class="sticky-page-nav-inner">
-      <span class="sticky-page-nav-label"></span>
-      <a href="#demo">Demo</a>
+      <span class="sticky-page-nav-label">WM-Craftnet</span>
       <a href="#overview">Overview</a>
       <a href="#wsm-evidence">Ablation Evidence</a>
       <a href="#depth-reconstruction">Depth Reconstruction</a>
@@ -42,48 +60,45 @@
     </div>
   </nav>
 
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered">
-          <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">
-              <span class="sharp-animated-word">WM-Craftnet</span>: World Synesthesia Model for Robust and Generalizable Dexterous In-Hand Manipulation
-            </h1>
-            <h3 class="title is-4 conference-authors">CoRL 2026, at Austin TX USA</h3>
-            <div class="is-size-5 publication-authors">
-              <span class="author-block"><a href="https://wmcraftnet.github.io/">Jie Yin</a></span>,
-              <span class="author-block"><a href="https://wmcraftnet.github.io/">Zeyuan Zhao</a></span>,
-              <span class="author-block"><a href="https://wmcraftnet.github.io/">Xiaojing Tan</a></span>,
-              <span class="author-block"><a href="https://wmcraftnet.github.io/">Yang Liu</a></span>,
-              <span class="author-block"><a href="https://wmcraftnet.github.io/">Chiyu Wang</a></span>,
-              <span class="author-block"><a href="https://wmcraftnet.github.io/">Xinyang Gu</a></span>
-            </div>
-            <div class="is-size-5 publication-authors">
-              <span class="author-block"><a href="https://www.sharpa.com/">Sharpa Robotics</a></span>
-            </div>
-            <div class="is-size-5 publication-authors" style="color: #e53935;">
-              <span class="author-block">We will release the codes soon!</span>
-            </div>
-            <div class="column has-text-centered">
-              <span class="link-block">
-                <button class="external-link button is-normal is-rounded is-dark" disabled>
-                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                  <span>Paper (TBD)</span>
-                </button>
-              </span>
-              <span class="link-block">
-                <button class="external-link button is-normal is-rounded is-dark" disabled>
-                  <span class="icon"><i class="fab fa-github"></i></span>
-                  <span>Code (TBD)</span>
-                </button>
-              </span>
-            </div>
+  <main class="page-content">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered publication-meta">
+          <h1 class="title is-2 publication-title">
+            <span class="sharp-animated-word">WM-Craftnet</span>: World Synesthesia Model for Robust and Generalizable Dexterous In-Hand Manipulation
+          </h1>
+          <h3 class="title is-5 conference-authors">CoRL 2026, Austin Texas, USA</h3>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://wmcraftnet.github.io/">Jie Yin</a></span>,
+            <span class="author-block"><a href="https://wmcraftnet.github.io/">Zeyuan Zhao</a></span>,
+            <span class="author-block"><a href="https://wmcraftnet.github.io/">Xiaojing Tan</a></span>,
+            <span class="author-block"><a href="https://wmcraftnet.github.io/">Yang Liu</a></span>,
+            <span class="author-block"><a href="https://wmcraftnet.github.io/">Chiyu Wang</a></span>,
+            <span class="author-block"><a href="https://wmcraftnet.github.io/">Xinyang Gu</a></span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://www.sharpa.com/">Sharpa Robotics</a></span>
+          </div>
+          <div class="is-size-5 publication-authors release-note">
+            <span class="author-block">We will release the codes soon!</span>
+          </div>
+          <div class="publication-links">
+            <span class="link-block">
+              <button class="external-link button is-normal is-rounded is-dark" disabled>
+                <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                <span>Paper (TBD)</span>
+              </button>
+            </span>
+            <span class="link-block">
+              <button class="external-link button is-normal is-rounded is-dark" disabled>
+                <span class="icon"><i class="fab fa-github"></i></span>
+                <span>Code (TBD)</span>
+              </button>
+            </span>
           </div>
         </div>
       </div>
     </div>
-  </section>
 
   <section class="section nidar-slogan-section" id="demo">
     <div class="container is-max-desktop has-text-centered">
@@ -94,21 +109,6 @@
         An action-conditioned recurrent state that turns depth, touch, proprioception, and control history into a reusable prior
         for perturbation-robust, object-ID-free in-hand manipulation.
       </p>
-    </div>
-  </section>
-
-  <section class="section teaser-video-section">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column is-four-fifths">
-          <div class="publication-video">
-            <video autoplay muted playsinline controls preload="none" data-loop-delay-ms="1000">
-              <source data-src="./static/videos/teaser/teaserv6.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -1260,6 +1260,8 @@
 }</code></pre>
     </div>
   </section>
+
+  </main>
 
   <footer class="footer">
     <div class="container">
