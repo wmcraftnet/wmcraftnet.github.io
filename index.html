@@ -50,7 +50,7 @@
             <h1 class="title is-1 publication-title">
               <span class="sharp-animated-word">WM-Craftnet</span>: World Synesthesia Model for Robust and Generalizable Dexterous In-Hand Manipulation
             </h1>
-            <h3 class="title is-4 conference-authors">CoRL 2026</h3>
+            <h3 class="title is-4 conference-authors">CoRL 2026, at Austin TX USA</h3>
             <div class="is-size-5 publication-authors">
               <span class="author-block"><a href="https://wmcraftnet.github.io/">Jie Yin</a></span>,
               <span class="author-block"><a href="https://wmcraftnet.github.io/">Zeyuan Zhao</a></span>,
@@ -66,13 +66,6 @@
               <span class="author-block">We will release the codes soon!</span>
             </div>
             <div class="column has-text-centered">
-              <span class="link-block">
-                <a href="./static/paper/supplementary_ablation.pdf"
-                  class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                  <span>supplementary_ablation</span>
-                </a>
-              </span>
               <span class="link-block">
                 <button class="external-link button is-normal is-rounded is-dark" disabled>
                   <span class="icon"><i class="fas fa-file-pdf"></i></span>
@@ -271,70 +264,6 @@
               <strong>Conclusion.</strong> The recurrent WSM state is not a generic visual embedding; it separates and blends
               interaction histories according to geometry/contact regimes that matter for control.
             </p>
-          </div>
-        </details>
-
-        <details class="ablation-detail">
-          <summary>Controlled WSM variants: clean-depth supervision and recurrence are both needed</summary>
-          <div class="ablation-detail-body">
-            <div class="ablation-table-wrap">
-              <table class="ablation-table">
-                <thead>
-                  <tr>
-                    <th>WSM Variant</th>
-                    <th>EpLen &uarr;</th>
-                    <th>Return &uarr;</th>
-                    <th>RotR &uarr;</th>
-                    <th>OffAxis &darr;</th>
-                    <th>AngVar &darr;</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Noisy-depth supervision</td>
-                    <td>431.1</td>
-                    <td>708.0</td>
-                    <td>1.265</td>
-                    <td>1.299</td>
-                    <td>1.456</td>
-                  </tr>
-                  <tr>
-                    <td>No previous h recurrent input</td>
-                    <td>434.3</td>
-                    <td>705.4</td>
-                    <td>1.282</td>
-                    <td><strong>1.125</strong></td>
-                    <td><strong>1.185</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Encoder-decoder z policy</td>
-                    <td>417.4</td>
-                    <td>667.6</td>
-                    <td>1.254</td>
-                    <td>1.323</td>
-                    <td>1.343</td>
-                  </tr>
-                  <tr class="ablation-best-row">
-                    <td>Full WSM</td>
-                    <td><strong>435.2</strong></td>
-                    <td><strong>753.3</strong></td>
-                    <td><strong>1.293</strong></td>
-                    <td>1.225</td>
-                    <td>1.324</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="ablation-visual-grid">
-              <figure class="ablation-figure">
-                <img src="./static/images/supplementary_ablation.webp" alt="Supplementary WSM ablation training curves">
-                <figcaption>The supplementary control curves show the full WSM learning faster and reaching higher final reward than each isolated variant.</figcaption>
-              </figure>
-              <p class="ablation-conclusion">
-                <strong>Conclusion.</strong> A per-frame latent feature is insufficient; the best control performance comes from
-                combining clean geometric targets with action-conditioned recurrent memory.
-              </p>
-            </div>
           </div>
         </details>
 
