@@ -120,7 +120,7 @@ html {
   }
 
   .hero-caption {
-    padding: 14px 16px 12vh;
+    padding: clamp(76px, 14vh, 112px) 16px 14px;
     gap: 0.65rem;
   }
 
@@ -149,8 +149,8 @@ html {
   }
 
   .hero-caption {
-    padding-top: 12px;
-    padding-bottom: 9vh;
+    padding-top: clamp(58px, 13vh, 86px);
+    padding-bottom: 14px;
   }
 }
 
@@ -194,12 +194,12 @@ html {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
+  top: 0;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   gap: clamp(0.75rem, 2vw, 1.5rem);
-  padding: clamp(14px, 2.4vw, 24px) clamp(20px, 4vw, 48px) clamp(58px, 9vh, 104px);
+  padding: clamp(72px, 12vh, 116px) clamp(20px, 4vw, 48px) clamp(18px, 2.8vw, 28px);
   background: transparent;
   border-top: 0;
   z-index: 2;
