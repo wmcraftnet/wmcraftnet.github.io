@@ -8,7 +8,7 @@
   <meta name="keywords"
     content="Dexterous manipulation, in-hand rotation, world model, visuotactile sensing, tactile sensing, synesthesia">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WM-Craftnet: World Synesthesia Model for Robust and Generalizable Dexterous In-Hand Manipulation</title>
+  <title>WM-Craftnet: World Synesthesia Model for Generalizable and Robust Dexterous In-Hand Manipulation</title>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
@@ -38,7 +38,7 @@
         <div class="hero-copy-inner">
           <h1 class="hero-title">
             <span class="hero-brand">WM-Craftnet</span>
-            <span class="hero-subtitle">World Synesthesia Model for Robust and Generalizable Dexterous In-Hand Manipulation</span>
+            <span class="hero-subtitle">World Synesthesia Model for Generalizable and Robust Dexterous In-Hand Manipulation</span>
           </h1>
         </div>
         <button class="scroll-indicator" type="button" aria-label="Scroll to content">&darr;</button>
@@ -57,6 +57,7 @@
       <a href="#adjustment-gallery">Robustness</a>
       <a href="#application-translation">Tool Use</a>
       <a href="#failure-case-analysis">Failures</a>
+      <a href="#BibTeX">BibTeX</a>
     </div>
   </nav>
 
@@ -65,7 +66,7 @@
       <div class="columns is-centered">
         <div class="column has-text-centered publication-meta">
           <h1 class="title is-2 publication-title">
-            <span class="sharp-animated-word">WM-Craftnet</span>: World Synesthesia Model for Robust and Generalizable Dexterous In-Hand Manipulation
+            <span class="sharp-animated-word">WM-Craftnet</span>: World Synesthesia Model for Generalizable and Robust Dexterous In-Hand Manipulation
           </h1>
           <h3 class="title is-5 conference-authors">CoRL 2026, Austin Texas, USA</h3>
           <div class="is-size-5 publication-authors">
@@ -84,10 +85,11 @@
           </div>
           <div class="publication-links">
             <span class="link-block">
-              <button class="external-link button is-normal is-rounded is-dark" disabled>
-                <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                <span>Paper (TBD)</span>
-              </button>
+              <a href="https://arxiv.org/abs/2609.07002" target="_blank" rel="noopener"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon"><i class="ai ai-arxiv"></i></span>
+                <span>arXiv</span>
+              </a>
             </span>
             <span class="link-block">
               <button class="external-link button is-normal is-rounded is-dark" disabled>
@@ -1249,15 +1251,29 @@
     </div>
   </section>
 
-  <section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
-      <h2 class="title">BibTeX</h2>
-      <pre><code>@inproceedings{yin2026wmcraftnet,
+  <section class="section bibtex-section" id="BibTeX">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths bibtex-card">
+          <h2 class="title is-3" style="color: #006496;font-weight: bolder;">BibTeX</h2>
+          <div class="bibtex-panel">
+            <button type="button" class="bibtex-copy-button" id="bibtex-copy-button"
+              aria-label="Copy BibTeX to clipboard">
+              <i class="fas fa-copy" aria-hidden="true"></i>
+              <span>Copy</span>
+            </button>
+            <pre class="bibtex-block" id="bibtex-block"><code>@inproceedings{yin2026wmcraftnet,
   author    = {Jie Yin and Zeyuan Zhao and Xiaojing Tan and Yang Liu and Chiyu Wang and Xinyang Gu},
-  title     = {WM-Craftnet: World Synesthesia Model for Robust and Generalizable Dexterous In-Hand Manipulation},
-  booktitle = {Conference on Robot Learning (CoRL)},
+  title     = {{WM-Craftnet}: World Synesthesia Model for Generalizable and Robust Dexterous In-Hand Manipulation},
+  booktitle = {Proceedings of the Conference on Robot Learning (CoRL)},
   year      = {2026},
+  eprint    = {2609.07002},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO}
 }</code></pre>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1266,7 +1282,8 @@
   <footer class="footer">
     <div class="container">
       <div class="content has-text-centered">
-        <span class="icon-link" title="Paper (TBD)"><i class="fas fa-file-pdf"></i></span>
+        <a class="icon-link" href="https://arxiv.org/abs/2609.07002" target="_blank" rel="noopener"
+          title="WM-Craftnet on arXiv"><i class="ai ai-arxiv"></i></a>
         <span class="icon-link" title="Code (TBD)"><i class="fab fa-github"></i></span>
       </div>
       <div class="columns is-centered">

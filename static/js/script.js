@@ -617,6 +617,69 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', requestNavigationUpdate);
     };
 
+    const setupBibtexCopy = () => {
+        const copyButton = document.getElementById('bibtex-copy-button');
+        const bibtexBlock = document.getElementById('bibtex-block');
+
+        if (!copyButton || !bibtexBlock) {
+            return;
+        }
+
+        const copyLabel = copyButton.querySelector('span');
+        const setCopiedState = (copied) => {
+            copyButton.classList.toggle('is-copied', copied);
+            if (copyLabel) {
+                copyLabel.textContent = copied ? 'Copied!' : 'Copy';
+            }
+        };
+
+        const copyFallback = (text) => {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            let copied = false;
+            try {
+                copied = document.execCommand('copy');
+            } catch (error) {
+                copied = false;
+            }
+            textarea.remove();
+            return copied;
+        };
+
+        copyButton.addEventListener('click', () => {
+            const text = (bibtexBlock.textContent || '').trim();
+            if (!text) {
+                return;
+            }
+
+            const handleSuccess = () => {
+                setCopiedState(true);
+                window.setTimeout(() => setCopiedState(false), 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text)
+                    .then(handleSuccess)
+                    .catch(() => {
+                        if (copyFallback(text)) {
+                            handleSuccess();
+                        }
+                    });
+                return;
+            }
+
+            if (copyFallback(text)) {
+                handleSuccess();
+            }
+        });
+    };
+
     const videos = Array.from(document.querySelectorAll('video')).filter((video) => video.dataset.heroVideo !== 'true');
     setupHeroSplash();
     videos.forEach(setupVideoLoadingState);
@@ -627,5 +690,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setupViewportPlayback(videos);
     setupCaptionSeekLinks(loadQueue);
     setupStickyNavigation();
+    setupBibtexCopy();
     scheduleIdleLoading(loadQueue);
 });

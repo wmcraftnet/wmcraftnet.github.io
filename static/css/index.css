@@ -286,6 +286,61 @@ html {
   margin-top: 1rem;
 }
 
+.bibtex-card {
+  margin: 0 auto;
+}
+
+.bibtex-panel {
+  position: relative;
+}
+
+.bibtex-copy-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgba(0, 100, 150, 0.22);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #00577f;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.bibtex-copy-button:hover {
+  color: #006496;
+  background: #f7fcff;
+  border-color: rgba(0, 100, 150, 0.35);
+  transform: translateY(-1px);
+}
+
+.bibtex-copy-button.is-copied {
+  color: #0f6b52;
+  background: #eefaf5;
+  border-color: rgba(15, 107, 82, 0.28);
+}
+
+.bibtex-block {
+  margin: 0;
+  padding: 2.65rem 1.1rem 1rem;
+  border: 1px solid rgba(0, 100, 150, 0.14);
+  border-radius: 10px;
+  overflow-x: auto;
+  background: #f4fafd;
+  color: #17364a;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
 
 .footer .icon-link {
     font-size: 25px;
