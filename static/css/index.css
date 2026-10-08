@@ -273,31 +273,42 @@ html {
 }
 
 .conference-authors {
-  margin-top: 0.75rem !important;
+  margin: 0 !important;
   margin-bottom: 0 !important;
-  color: #006496;
-  font-weight: 600;
+  color: #355d73;
+  font-size: 0.98rem !important;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.conference-award-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.48rem 0.72rem;
+  margin: 0.72rem auto 0.68rem;
 }
 
 .publication-award {
-  margin: 0.65rem 0 0.85rem;
+  margin: 0;
 }
 
 .venue-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.6em;
+  gap: 0.48em;
   vertical-align: middle;
-  padding: 0.55em 1.15em 0.55em 0.95em;
+  padding: 0.38em 0.82em 0.38em 0.68em;
   border-radius: 999px;
-  color: #a97512;
-  font-weight: 700;
-  font-size: 0.98rem;
-  letter-spacing: 0.02em;
+  color: #8a5a0a;
+  font-weight: 750;
+  font-size: 0.86rem;
+  letter-spacing: 0.025em;
   line-height: 1.25;
-  background: linear-gradient(135deg, rgba(201, 150, 43, 0.22), rgba(255, 224, 150, 0.12) 55%, rgba(201, 150, 43, 0.18));
-  border: 1px solid rgba(201, 150, 43, 0.55);
-  box-shadow: 0 0 0 1px rgba(243, 210, 122, 0.18), 0 8px 24px rgba(243, 190, 70, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  background: rgba(255, 252, 242, 0.78);
+  border: 1px solid rgba(190, 139, 36, 0.36);
+  box-shadow: 0 5px 16px rgba(120, 72, 8, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.74);
 }
 
 .award-text {
@@ -311,24 +322,29 @@ html {
 
 .award-status,
 .award-detail {
-  color: #c9962b;
+  color: #8a5a0a;
 }
 
 .trophy {
-  width: 1.35em;
-  height: 1.35em;
+  width: 1.18em;
+  height: 1.18em;
   flex: 0 0 auto;
   fill: none;
-  stroke: #c9962b;
-  stroke-width: 1.8;
+  stroke: #9b6510;
+  stroke-width: 1.65;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 6px rgba(255, 215, 120, 0.45));
+  filter: drop-shadow(0 1px 2px rgba(120, 72, 8, 0.18));
 }
 
 .trophy .cup {
-  fill: #f3d27a;
-  stroke: #c9962b;
+  fill: rgba(227, 177, 72, 0.28);
+  stroke: #9b6510;
+}
+
+.trophy .highlight {
+  stroke: rgba(255, 255, 255, 0.78);
+  stroke-width: 1.15;
 }
 
 .publication-meta .release-note {
@@ -336,7 +352,76 @@ html {
 }
 
 .publication-links {
-  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+  margin-top: 0.82rem;
+}
+
+.publication-meta .publication-authors {
+  font-size: 1.02rem !important;
+  line-height: 1.6;
+}
+
+.publication-links .button.is-dark {
+  min-width: 6.25rem;
+  min-height: 2.15rem;
+  padding: 0.42rem 0.86rem;
+  border: 1px solid rgba(0, 100, 150, 0.5);
+  background: #006496;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(0, 100, 150, 0.14);
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.publication-links .button.is-dark .icon {
+  color: #ffffff;
+}
+
+.publication-links .button.is-dark:hover {
+  border-color: rgba(0, 87, 127, 0.68);
+  background: #00577f;
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(0, 100, 150, 0.22);
+  transform: translateY(-1px);
+}
+
+.publication-links .button.is-dark:hover .icon {
+  color: #ffffff;
+}
+
+.publication-links .link-block a {
+  margin: 0;
+}
+
+.publication-links .hf-logo {
+  font-size: 0.94rem;
+  line-height: 1;
+}
+
+.publication-links .resource-link--model {
+  border-color: rgba(235, 180, 36, 0.55);
+  background: #fff3c4;
+  color: #5b4300;
+  box-shadow: 0 8px 20px rgba(235, 180, 36, 0.12);
+}
+
+.publication-links .resource-link--model .icon {
+  color: #5b4300;
+}
+
+.publication-links .resource-link--model:hover {
+  border-color: rgba(226, 166, 17, 0.72);
+  background: #ffe28a;
+  color: #3f2d00;
+  box-shadow: 0 12px 28px rgba(226, 166, 17, 0.18);
+}
+
+.publication-links .resource-link--model:hover .icon {
+  color: #3f2d00;
 }
 
 .bibtex-card {
@@ -508,6 +593,38 @@ html {
 
 .author-block {
   display: inline-block;
+}
+
+.affiliation-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.62rem auto 0;
+}
+
+.affiliation-logos a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0.12rem 0.2rem;
+  opacity: 0.88;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.affiliation-logos a:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.institution-logo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.institution-logo--sharpa {
+  width: min(152px, 44vw);
 }
 
 .publication-video {
