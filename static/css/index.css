@@ -295,6 +295,8 @@ html {
 }
 
 .venue-chip {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: 0.48em;
@@ -309,6 +311,16 @@ html {
   background: rgba(255, 252, 242, 0.78);
   border: 1px solid rgba(190, 139, 36, 0.36);
   box-shadow: 0 5px 16px rgba(120, 72, 8, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
+.award-chip {
+  background-color: #fff4d6;
+  animation: award-chip-glow 2.5s ease-in-out infinite;
+}
+
+.award-chip > * {
+  position: relative;
+  z-index: 1;
 }
 
 .award-text {
@@ -335,6 +347,7 @@ html {
   stroke-linecap: round;
   stroke-linejoin: round;
   filter: drop-shadow(0 1px 2px rgba(120, 72, 8, 0.18));
+  animation: trophy-bling 2.8s ease-in-out infinite;
 }
 
 .trophy .cup {
@@ -345,6 +358,79 @@ html {
 .trophy .highlight {
   stroke: rgba(255, 255, 255, 0.78);
   stroke-width: 1.15;
+}
+
+.trophy .sparkle {
+  stroke: #f4c84a;
+  stroke-width: 1.35;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sparkle-pop 2.8s ease-in-out infinite;
+}
+
+.trophy .sparkle-right {
+  animation-delay: 0.52s;
+}
+
+@keyframes trophy-bling {
+  0%,
+  62%,
+  100% {
+    filter: drop-shadow(0 1px 2px rgba(120, 72, 8, 0.18));
+  }
+  28% {
+    filter:
+      drop-shadow(0 1px 2px rgba(120, 72, 8, 0.18))
+      drop-shadow(0 0 7px rgba(244, 200, 74, 0.58));
+  }
+}
+
+@keyframes award-chip-glow {
+  0%,
+  100% {
+    background-color: #fff4d6;
+    border-color: rgba(190, 139, 36, 0.36);
+    box-shadow: 0 5px 16px rgba(120, 72, 8, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.74);
+  }
+  50% {
+    background-color: #ffe6a6;
+    border-color: rgba(214, 156, 36, 0.62);
+    box-shadow:
+      0 8px 22px rgba(196, 137, 28, 0.16),
+      0 0 0 1px rgba(255, 231, 150, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+}
+
+@keyframes sparkle-pop {
+  0%,
+  18%,
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(0.62) rotate(0deg);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.08) rotate(18deg);
+  }
+  43% {
+    opacity: 0.55;
+    transform: scale(0.9) rotate(28deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .award-chip,
+  .trophy,
+  .trophy .sparkle {
+    animation: none;
+  }
+
+  .trophy .sparkle {
+    opacity: 0.75;
+  }
 }
 
 .publication-meta .release-note {
